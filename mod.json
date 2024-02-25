@@ -1,9 +1,18 @@
 {
 	"geode": "2.0.0-beta.20",
-	"gd": "2.204",
+	"gd": {
+		"win": "2.204"
+	},
 	"version": "v1.0.0",
-	"id": "ml5.shopping_list",
+	"id": "ml5.shopping-list",
 	"name": "Shopping List",
-	"developer": "ML5",
-	"description": ""
+	"developer": "ML500",
+	"description": "",
+	"dependencies": [
+		{
+			"id": "geode.node-ids",
+			"version": ">=v1.5.0",
+			"importance": "required"
+		}
+	]
 }
