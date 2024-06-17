@@ -12,7 +12,7 @@ class $modify(ModLayer, GJGarageLayer){
 
 		auto menu = this->getChildByID("shards-menu");
 
-		auto spr = CircleButtonSprite::createWithSpriteFrameName("storeItemIcon_001.png", 1, CircleBaseColor::Gray, CircleBaseSize::Small);
+		auto spr = CircleButtonSprite::createWithSprite("bigShopIcon.png"_spr, 1, CircleBaseColor::Gray, CircleBaseSize::Small);
 		auto button = CCMenuItemSpriteExtra::create(
 			spr,
 			this,

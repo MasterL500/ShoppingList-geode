@@ -1,18 +1,43 @@
 {
-	"geode": "2.0.0-beta.20",
+	"geode": "3.0.0-beta.1",
 	"gd": {
-		"win": "2.204"
+		"win": "2.206"
 	},
-	"version": "v1.0.0",
+	"version": "v1.0.0-beta.1",
 	"id": "ml5.shopping-list",
-	"name": "Shopping List",
+	"name": "Shop Checklist",
 	"developer": "ML500",
 	"description": "",
 	"dependencies": [
 		{
 			"id": "geode.node-ids",
-			"version": ">=v1.5.0",
+			"version": ">=v1.12.0",
 			"importance": "required"
 		}
-	]
+	],
+	"resources": {
+		"sprites": [
+			"resources/*.png"
+		]
+	},
+	"settings": {
+		"misc-rewards": {
+			"name": "Misc. rewards",
+			"description": "Displays Color and Death effects in the checklist.",
+			"type": "bool",
+			"default": true
+		},
+		"disable-checkmark": {
+			"name": "No Checkmark",
+			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
+			"type": "bool",
+			"default": false
+		},
+		"group-by-chest": {
+			"name": "Group by Chests",
+			"description": "Tier II rewards are grouped by chest instead of being displayed separately.",
+			"type": "bool",
+			"default": false
+		}
+	}
 }
