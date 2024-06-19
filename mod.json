@@ -3,11 +3,11 @@
 	"gd": {
 		"win": "2.206"
 	},
-	"version": "v1.0.0-beta.1",
+	"version": "v1.0.0-alpha.1",
 	"id": "ml5.shopping-list",
 	"name": "Shop Checklist",
 	"developer": "ML500",
-	"description": "",
+	"description": "Making sure you have enough Mana Orbs.",
 	"dependencies": [
 		{
 			"id": "geode.node-ids",
@@ -21,21 +21,9 @@
 		]
 	},
 	"settings": {
-		"misc-rewards": {
-			"name": "Misc. rewards",
-			"description": "Displays Color and Death effects in the checklist.",
-			"type": "bool",
-			"default": true
-		},
 		"disable-checkmark": {
 			"name": "No Checkmark",
 			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
-			"type": "bool",
-			"default": false
-		},
-		"group-by-chest": {
-			"name": "Group by Chests",
-			"description": "Tier II rewards are grouped by chest instead of being displayed separately.",
 			"type": "bool",
 			"default": false
 		}

@@ -4,20 +4,22 @@
 
 using namespace geode::prelude;
 
-class ShopListAlert : public Popup<> {
+class ShoppingListAlert : public Popup<> {
     protected:
+        size_t m_currentPage = 1;
+        bool m_selectMode = false;
+        int m_totalPrice = 0;
+
         bool setup() override;
-        void createShopButton(CCMenu *, int, bool);
 
-        void addShopIcon(CCMenu *, int, int, int, bool);
-
-        template <typename T>
-        void addIcons(CCMenu*, int, const T &);
-        template <typename T, typename... A>
-        void addIcons(CCMenu*, int, const T &, const A &...);
-
-        void onShopButton(CCObject *);
+        CCMenu * createPage(CCSize size, int ID, int index, bool isVisible);
+        void createNavButton(CCMenu *, int, bool);
+        void onSelectButton(CCObject *);
+        void onPageButton(CCObject *);
+        void onNavButton(CCObject *);
+        
+        void addItem(CCMenu *, int type, std::map<int, int>, bool);
     public:
-        static ShopListAlert * create();
-        void onIconButton(CCObject *);
+        static ShoppingListAlert * create();
+        void onIcon(CCObject *);
 };

@@ -26,6 +26,6 @@ class $modify(ModLayer, GJGarageLayer){
 	}
 
 	void onShopListButton(CCObject *){
-		ShopListAlert::create()->show();
+		ShoppingListAlert::create()->show();
 	}
 };
