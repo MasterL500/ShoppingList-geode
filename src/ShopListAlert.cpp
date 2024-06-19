@@ -33,7 +33,7 @@ bool ShoppingListAlert::setup(){
     auto infoButton = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png"),
         this,
-        nullptr
+        menu_selector(ShoppingListAlert::onInfoButton)
     );
 
     infoButton->setPosition(infoMenu->getContentSize());
@@ -240,6 +240,7 @@ CCMenu * ShoppingListAlert::createPage(CCSize size, int ID, int index, bool isVi
     menu->setPositionY(winSize.height / 2 + 8.f);
     menu->setVisible(isVisible);
     menu->setScale(0.8f);
+    menu->setTag(ID);
 
     return menu;
 };
@@ -347,6 +348,12 @@ void ShoppingListAlert::addItem(CCMenu* menu, int type, std::map<int, int> icons
             iconID
         );
 
+        if(gsm->isItemUnlocked(iconType, iconID)){
+            auto tag = menu->getTag();
+
+            m_itemCount[tag - 1]++;
+        };
+
         if(gsm->isItemUnlocked(iconType, iconID) && !noCheckmark){
             auto checkmark = CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png");
             checkmark->setPosition(iconSpr->getContentSize() / 2);
@@ -410,6 +417,17 @@ void ShoppingListAlert::onIcon(CCObject *sender){
     */
 
     ItemInfoPopup::create(parameters->p_iconId, parameters->p_iconType)->show();
+};
+
+//	When the Info Button is pressed, gives a quick summary of the Player's stats in the Treasure Room.
+void ShoppingListAlert::onInfoButton(CCObject * sender){
+    std::string info =
+        "<cr>The Shop:</c> " + std::to_string(m_itemCount[0]) + " out of " + std::to_string(m_itemTotal[0]) +
+        "\n<cg>Secret Shop:</c> " + std::to_string(m_itemCount[1]) + " out of " + std::to_string(m_itemTotal[1]) +
+        "\n<cy>Community Shop:</c> " + std::to_string(m_itemCount[2]) + " out of " + std::to_string(m_itemTotal[2]) +
+        "\n<cp>The Mechanic: </c> " + std::to_string(m_itemCount[3]) + " out of " + std::to_string(m_itemTotal[3]) +
+        "\n<cb>Diamond Shop:</c> " + std::to_string(m_itemCount[4]) + " out of " + std::to_string(m_itemTotal[4]);
+	FLAlertLayer::create("Shops", info.c_str(), "OK")->show();
 };
 
 ShoppingListAlert * ShoppingListAlert::create() {
