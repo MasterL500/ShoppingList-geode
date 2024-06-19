@@ -1,9 +1,31 @@
 {
-	"geode": "2.0.0-beta.20",
-	"gd": "2.204",
-	"version": "v1.0.0",
-	"id": "ml5.shopping_list",
-	"name": "Shopping List",
-	"developer": "ML5",
-	"description": ""
+	"geode": "3.0.0-beta.1",
+	"gd": {
+		"win": "2.206"
+	},
+	"version": "v1.0.0-alpha.1",
+	"id": "ml5.shopping-list",
+	"name": "Shop Checklist",
+	"developer": "ML500",
+	"description": "Making sure you have enough Mana Orbs.",
+	"dependencies": [
+		{
+			"id": "geode.node-ids",
+			"version": ">=v1.12.0",
+			"importance": "required"
+		}
+	],
+	"resources": {
+		"sprites": [
+			"resources/*.png"
+		]
+	},
+	"settings": {
+		"disable-checkmark": {
+			"name": "No Checkmark",
+			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
+			"type": "bool",
+			"default": false
+		}
+	}
 }
