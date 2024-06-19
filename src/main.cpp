@@ -26,15 +26,6 @@ class $modify(ModLayer, GJGarageLayer){
 	}
 
 	void onShopListButton(CCObject *){
-		geode::createQuickPopup(
-			"Warning",
-			"It's recommended to load the textures of the Icons by cycling through the Icon Kit first before opening this, if you haven't done it, you'll run the risk of the Mod Crashing.\nDo you wish to proceed?",
-			"No", "Yes",
-			[](auto, bool btn2) {
-				if (btn2) {
-					ShoppingListAlert::create()->show();
-				}
-			}
-		);
+		ShoppingListAlert::create()->show();
 	}
 };
