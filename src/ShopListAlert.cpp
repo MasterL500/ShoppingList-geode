@@ -514,12 +514,11 @@ void ShoppingListAlert::onIcon(CCObject *sender){
                 //  m_taggedItems.erase(it);
 
                 std::vector<int>::iterator it;
-                for(it = m_taggedItems.begin(); it != m_taggedItems.end(); it++){
-                    if(*it == arrayID){
-                        break;
-                    }
+                for(it = m_taggedItems.begin(); it != m_taggedItems.end() && *it != arrayID; it++);
+
+                if (it != m_taggedItems.end()){
+                    m_taggedItems.erase(it);
                 }
-                m_taggedItems.erase(it);
             } else {
                 //  log::debug("Icon Selected");
 
