@@ -256,11 +256,11 @@ void ShoppingListAlert::createIconPage(int ID, int index)
 void ShoppingListAlert::createNavButton(CCMenu *menu, int tag, bool active)
 {
     //  Sprite based on the tag of the button
-    auto sprName = (tag == 1) ? "shopKeeper_1.png"_spr 
-                : (tag == 2) ? "shopKeeper_2.png"_spr
-                : (tag == 3)   ? "shopKeeper_3.png"_spr
-                : (tag == 4)   ? "shopKeeper_4.png"_spr
-                : "shopKeeper_5.png"_spr;
+    auto sprName = (tag == 1) ? "SL_ShopKeeper01.png"_spr
+                : (tag == 2) ? "SL_ShopKeeper02.png"_spr
+                : (tag == 3) ? "SL_ShopKeeper03.png"_spr
+                : (tag == 4) ? "SL_ShopKeeper04.png"_spr
+                : "SL_ShopKeeper05.png"_spr;
 
     //  Base color based on whenever the current page is on
     auto baseColor = (active) ? IconSelectBaseColor::Selected : IconSelectBaseColor::Unselected;
@@ -389,6 +389,14 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
         menu->addChild(iconButton);
         menu->updateLayout();
     }
+};
+
+//	When a specific Icon Button is pressed
+void ShoppingListAlert::onIcon(CCObject *sender){
+    auto parameters = static_cast<IconParameters *>(
+        static_cast<CCNode *>(sender)->getUserObject());
+
+    ItemInfoPopup::create(parameters->p_iconId, parameters->p_iconType)->show();
 };
 
 //	When the Info Button is pressed, gives a quick summary of the Player's stats in the Treasure Room.
