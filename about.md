@@ -1,12 +1,11 @@
 # Shopping List
 
-<cr>Note: </c> This mod is under development to add extra features, so it's under "Alpha" phase as we speak.
-
-Displays lists of all the Items you can buy (or have bought) from any of the five available shops in the game. Will soon include a way to calculate how many mana orbs you require to buy icons and more.
+Displays a list of all the Items you can buy from the available shops in the game (Icons, Colors, Extra items). This mod will have more features in the future, like a method to calculate how many Orbs and Diamonds you need to buy everything.
 
 ## Options (Settings)
 
-* Disable checkmark.
+* Disable Checkmark.
+* Hide button from the Garage.
 
 ## Contact Info
 
@@ -16,5 +15,3 @@ To report bugs, crashes or issues with other mods, you can contact me through [G
 
 * **Robtop** - For removing that shop sprite. Thus giving this mod a purpose :D
 * **Geode** - Documentation and the tools to modding in Geometry Dash.
-
-
