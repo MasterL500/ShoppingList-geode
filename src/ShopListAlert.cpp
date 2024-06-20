@@ -429,8 +429,13 @@ void ShoppingListAlert::onSelectButton(CCObject * sender){
 void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> icons, bool isDiamondShop)
 {
     for (auto const &[iconID, price] : icons)
-    {
+    {   
+        #ifdef GEODE_IS_WINDOWS
         auto found = m_taggedItems.find(iconID + type * 1000 + menu->getTag() * 100000) != m_taggedItems.end();
+        #else
+        auto found = false;
+        #endif
+
         auto noCheckmark = Mod::get()->getSettingValue<bool>("disable-checkmark");
         auto gsm = GameStatsManager::sharedState();
         UnlockType iconType{type};
