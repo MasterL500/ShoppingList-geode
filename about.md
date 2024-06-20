@@ -4,8 +4,8 @@ Wanna know how many Orbs or Diamonds it costs to buy everything? This mod displa
 
 ## Features
 
-* <cy>*Displays a list of all the items*</c> sold by each shop (Icons, Colors, Etc.)
-* <cg>*Select Mode*</c> allows to tag items and see how much is the sum of it (Orbs and Diamonds separately).
+* **Displays a list of all the items** sold by each shop (Icons, Colors, Etc.)
+* **Select Mode allows to tag items** and see how much is the sum of it (Orbs and Diamonds separately).
 * All the items you have bought will be checkmarked.
 
 ## Options (Settings)
