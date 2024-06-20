@@ -421,7 +421,11 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
     {   
         //std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), iconID + type * 1000 + menu->getTag() * 100000);
         //auto found = (it != m_taggedItems.end());
+
         auto found = false;
+        for (int ii : m_taggedItems){
+            if(ii == iconID + type * 1000 + menu->getTag() * 100000) found = true;
+        }
 
         auto noCheckmark = Mod::get()->getSettingValue<bool>("disable-checkmark");
         auto gsm = GameStatsManager::sharedState();
