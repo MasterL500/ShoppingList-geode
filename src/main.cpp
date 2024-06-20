@@ -1,7 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/GJGarageLayer.hpp>
 #include <Geode/modify/GJShopLayer.hpp>
-//	#include "ShopListAlert.hpp"
+#include "ShopListAlert.hpp"
 
 using namespace geode::prelude;
 
@@ -31,7 +31,7 @@ class $modify(ModLayer, GJGarageLayer){
 	}
 
 	void onShopListButton(CCObject *){
-		//	ShoppingListAlert::create()->show();
+		ShoppingListAlert::create()->show();
 	}
 };
 
@@ -60,6 +60,6 @@ class $modify(ShopLayer, GJShopLayer){
 		}
 
 		void onInfoButton(CCObject *){
-			//	ShoppingListAlert::create()->show();
+			ShoppingListAlert::create()->show();
 		}
 	};

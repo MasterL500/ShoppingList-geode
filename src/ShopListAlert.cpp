@@ -412,16 +412,17 @@ void ShoppingListAlert::onSelectButton(CCObject * sender){
     orbsPrice->setVisible(!toggler->isToggled());
     orbsIcon->setVisible(!toggler->isToggled());
 
-    log::debug("Select mode: {}", m_selectMode);
+    //  log::debug("Select mode: {}", m_selectMode);
 };
 
 void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> icons, bool isDiamondShop)
 {
     for (auto const &[iconID, price] : icons)
     {   
-        std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), iconID + type * 1000 + menu->getTag() * 100000);
+        //std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), iconID + type * 1000 + menu->getTag() * 100000);
+        //auto found = (it != m_taggedItems.end());
+        auto found = false;
 
-        auto found = (it != m_taggedItems.end());
         auto noCheckmark = Mod::get()->getSettingValue<bool>("disable-checkmark");
         auto gsm = GameStatsManager::sharedState();
         UnlockType iconType{type};
@@ -491,7 +492,7 @@ void ShoppingListAlert::onIcon(CCObject *sender){
             auto icon = static_cast<GJItemIcon *>(btn->getChildren()->objectAtIndex(0));
             auto label = static_cast<CCLabelBMFont *>(icon->getChildByID("icon-price"));
 
-            auto arrayID = parameters->p_iconID + parameters->p_iconType * 1000 + parameters->p_shopID * 100000;
+            //  auto arrayID = parameters->p_iconID + parameters->p_iconType * 1000 + parameters->p_shopID * 100000;
 
             if(parameters->p_selected){
                 //  log::debug("Icon Deselected");
@@ -506,8 +507,8 @@ void ShoppingListAlert::onIcon(CCObject *sender){
 
                 label->setColor({ 255, 255, 255 });
 
-                std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), arrayID);
-                m_taggedItems.erase(it);
+                //  std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), arrayID);
+                //  m_taggedItems.erase(it);
             } else {
                 //  log::debug("Icon Selected");
 
@@ -520,7 +521,7 @@ void ShoppingListAlert::onIcon(CCObject *sender){
                 m_tagged[parameters -> p_shopID - 1]++;
 
                 label->setColor({ 0, 255, 255 });
-                m_taggedItems.push_back(arrayID);
+                //  m_taggedItems.push_back(arrayID);
             }
 
             parameters->p_selected = !parameters->p_selected;
