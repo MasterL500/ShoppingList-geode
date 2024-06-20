@@ -1,4 +1,8 @@
-# v1.0.0-beta.1 (Latest)
+# v1.0.0-beta.2 (Latest)
+
+* Fixed bug where Icon Popup doesn't show up.
+
+## v1.0.0-beta.1
 
 * Added setting where you can remove the button from the Garage.
 * Optimized code (to prevent lag spikes).

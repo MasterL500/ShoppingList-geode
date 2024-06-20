@@ -380,7 +380,7 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
         auto iconButton = CCMenuItemSpriteExtra::create(
             iconSpr,
             this,
-            nullptr // menu_selector(ShoppingListAlert::onIcon)
+            menu_selector(ShoppingListAlert::onIcon)
         );
 
         //	Passes the user-defined IconParameters for its callback
