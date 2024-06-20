@@ -1,4 +1,4 @@
-# v1.0.0-beta.2 (Latest)
+# v1.0.0-beta.3 (Latest)
 
 * Fixed bug where Icon Popup doesn't show up.
 
