@@ -1,11 +1,17 @@
 # Shopping List
 
-Displays a list of all the Items you can buy from the available shops in the game (Icons, Colors, Extra items). This mod will have more features in the future, like a method to calculate how many Orbs and Diamonds you need to buy everything.
+Wanna know how many Orbs or Diamonds it costs to buy everything? This mod displays a list of all the items you can buy (or have bought) from the Five shops in the game!
+
+## Features
+
+* **Displays a list of all the items** sold by each shop (Icons, Colors, Etc.)
+* **Select Mode allows to tag items** and see how much is the sum of it (Orbs and Diamonds separately).
+* All the items you have bought will be checkmarked.
 
 ## Options (Settings)
 
-* Disable Checkmark.
 * Hide button from the Garage.
+* Disable Checkmark.
 
 ## Contact Info
 
