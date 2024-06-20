@@ -107,8 +107,6 @@ bool ShoppingListAlert::setup()
 
     createIconPage(1, 1);
 
-    #ifdef GEODE_IS_WINDOWS
-
     //  Select Mode (Menu)
     auto selectMenu = CCMenu::create();
     selectMenu->setContentSize({400.f, 212.f});
@@ -157,8 +155,6 @@ bool ShoppingListAlert::setup()
     orbsPrice->setVisible(false);
     orbsIcon->setVisible(false);
 
-    #endif
-    
     this->m_noElasticity = true;
     this->setTitle("The Shop");
     return true;
@@ -321,8 +317,6 @@ void ShoppingListAlert::createNavButton(CCMenu *menu, int tag, bool active)
 
     auto buttonSpr = IconSelectButtonSprite::createWithSprite(sprName, 1.25F, baseColor);
 
-    #ifdef GEODE_IS_WINDOWS
-
     if(!active && m_tagged[tag - 1] > 0){
         auto mark = CCSprite::create("SL_ExMark.png"_spr);
         mark->setPosition({27.f, 10.f});
@@ -330,8 +324,6 @@ void ShoppingListAlert::createNavButton(CCMenu *menu, int tag, bool active)
 
         buttonSpr->addChild(mark);
     }
-
-    #endif
 
     //  Button
     auto button = CCMenuItemSpriteExtra::create(
@@ -405,7 +397,6 @@ void ShoppingListAlert::onPageButton(CCObject * sender){
     createIconPage(m_currentPage, tag);
 };
 
-#ifdef GEODE_IS_WINDOWS
 
 void ShoppingListAlert::onSelectButton(CCObject * sender){
     CCMenuItemToggler * toggler = static_cast<CCMenuItemToggler *>(sender);
@@ -424,18 +415,13 @@ void ShoppingListAlert::onSelectButton(CCObject * sender){
     log::debug("Select mode: {}", m_selectMode);
 };
 
-#endif
-
 void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> icons, bool isDiamondShop)
 {
     for (auto const &[iconID, price] : icons)
     {   
-        #ifdef GEODE_IS_WINDOWS
-        auto found = m_taggedItems.find(iconID + type * 1000 + menu->getTag() * 100000) != m_taggedItems.end();
-        #else
-        auto found = false;
-        #endif
+        std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), iconID + type * 1000 + menu->getTag() * 100000);
 
+        auto found = (it != m_taggedItems.end());
         auto noCheckmark = Mod::get()->getSettingValue<bool>("disable-checkmark");
         auto gsm = GameStatsManager::sharedState();
         UnlockType iconType{type};
@@ -499,8 +485,6 @@ void ShoppingListAlert::onIcon(CCObject *sender){
     //  log::debug("Select mode: {}", m_selectMode);
     //  log::debug("Tag {}", parameters->p_shopID);
 
-    #ifdef GEODE_IS_WINDOWS
-
     if(m_selectMode){
         if(!gsm->isItemUnlocked(iconType, parameters->p_iconID) || noCheckmark){
             auto btn = static_cast<CCMenuItemSpriteExtra *>(sender);
@@ -521,7 +505,9 @@ void ShoppingListAlert::onIcon(CCObject *sender){
                 m_tagged[parameters -> p_shopID - 1]--;
 
                 label->setColor({ 255, 255, 255 });
-                m_taggedItems.erase(arrayID);
+
+                std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), arrayID);
+                m_taggedItems.erase(it);
             } else {
                 //  log::debug("Icon Selected");
 
@@ -534,7 +520,7 @@ void ShoppingListAlert::onIcon(CCObject *sender){
                 m_tagged[parameters -> p_shopID - 1]++;
 
                 label->setColor({ 0, 255, 255 });
-                m_taggedItems.emplace(arrayID);
+                m_taggedItems.push_back(arrayID);
             }
 
             parameters->p_selected = !parameters->p_selected;
@@ -559,11 +545,6 @@ void ShoppingListAlert::onIcon(CCObject *sender){
         ItemInfoPopup::create(parameters->p_iconID, iconType)->show();
         //  log::debug("Icon Popup");
     }
-
-    #else
-        ItemInfoPopup::create(parameters->p_iconID, iconType)->show();
-
-    #endif
 };
 
 //	When the Info Button is pressed, gives a quick summary of the Player's stats in the Treasure Room.
