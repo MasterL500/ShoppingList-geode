@@ -9,21 +9,25 @@ using namespace geode::prelude;
 class $modify(ModLayer, GJGarageLayer){
 	bool init(){
 		if(!GJGarageLayer::init()) return false;
+		auto noGarageButton = Mod::get()->getSettingValue<bool>("no-garage-button");
 
-		NodeIDs::provideFor(this);
+		if(!noGarageButton){
+			NodeIDs::provideFor(this);
 
-		auto menu = this->getChildByID("shards-menu");
+			auto menu = this->getChildByID("shards-menu");
 
-		auto spr = CircleButtonSprite::createWithSprite("SL_ShopIcon.png"_spr, 1, CircleBaseColor::Gray, CircleBaseSize::Small);
-		auto button = CCMenuItemSpriteExtra::create(
-			spr,
-			this,
-			menu_selector(ModLayer::onShopListButton)
-		);
-		button->setID("Shopping-List-Button");
+			auto spr = CircleButtonSprite::createWithSprite("SL_ShopIcon.png"_spr, 1, CircleBaseColor::Gray, CircleBaseSize::Small);
+			auto button = CCMenuItemSpriteExtra::create(
+				spr,
+				this,
+				menu_selector(ModLayer::onShopListButton)
+			);
+			button->setID("Shopping-List-Button");
 
-		menu->addChild(button);
-		menu->updateLayout();
+			menu->addChild(button);
+			menu->updateLayout();
+		}
+
 		return true;
 	}
 
@@ -41,14 +45,14 @@ class $modify(ShopLayer, GJShopLayer){
 
 		auto menu = CCMenu::create();
 		menu->setPosition({30.0f, 30.0f});
-		menu->setID("Treasure-Checklist-Menu");
+		menu->setID("Shopping-List-Menu");
 		menu->setZOrder(5);
 		
 		auto button = CCMenuItemSpriteExtra::create(
 			CCSprite::create("SL_ModInfo.png"_spr),
 			this,
 			menu_selector(ShopLayer::onInfoButton));
-		button->setID("Treasure-Checklist-Button");
+		button->setID("Shopping-List-Button");
 		
 		menu->addChild(button);
 		menu->updateLayout();

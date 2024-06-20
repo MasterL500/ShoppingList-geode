@@ -1,5 +1,6 @@
-# v1.0.0-alpha.2 (Latest)
+# v1.0.0-beta.1 (Latest)
 
+* Added setting where you can remove the button from the Garage.
 * Optimized code (to prevent lag spikes).
 * Minor bugfixes.
 

@@ -1,8 +1,6 @@
 # Shopping List
 
-<cr>This mod is under development</c> to add more distinct features. As for now, it's under "Alpha" phase as we speak.
-
-Displays a list of all the Items you can buy from the available shops in the game (Icons, Colors, Extra items). Will soon include a way to calculate how many mana orbs and diamonds you require to buy everything.
+Displays a list of all the Items you can buy from the available shops in the game (Icons, Colors, Extra items). This mod will have more features in the future, like a method to calculate how many Orbs and Diamonds you need to buy everything.
 
 ## Options (Settings)
 

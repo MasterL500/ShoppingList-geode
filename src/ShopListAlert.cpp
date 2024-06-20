@@ -61,7 +61,7 @@ bool ShoppingListAlert::setup()
     //  Arrow Buttons for shops with more than One page
     auto pageNavMenu = CCMenu::create();
     pageNavMenu->setLayout(RowLayout::create()
-                ->setGap(480.0f)
+                ->setGap(460.0f)
                 ->setGrowCrossAxis(true)
                 ->setCrossAxisOverflow(false));
     pageNavMenu->setID("page-menu");
