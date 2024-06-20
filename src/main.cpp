@@ -1,5 +1,4 @@
 #include <Geode/Geode.hpp>
-#include <Geode/binding/DialogLayer.hpp>
 #include <Geode/modify/GJGarageLayer.hpp>
 #include <Geode/modify/GJShopLayer.hpp>
 #include "ShopListAlert.hpp"
