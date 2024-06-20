@@ -1,4 +1,6 @@
-# v1.0.0-beta.3 (Latest)
+# Changelog
+
+## v1.0.0-beta.4 (Latest)
 
 * **Added major feature: "Select Mode".**
 * You can tag which Icons to buy and how much is the sum of all.
@@ -6,7 +8,7 @@
 * Selected icons will have it's price colored blue.
 * More Bugfixes.
 
-## v1.0.0-beta.2
+## v1.0.0-beta.3
 
 * Fixed bug where Icon Popup doesn't show up.
 
