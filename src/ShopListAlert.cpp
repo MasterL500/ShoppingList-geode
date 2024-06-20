@@ -419,8 +419,8 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
 {
     for (auto const &[iconID, price] : icons)
     {   
-        //std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), iconID + type * 1000 + menu->getTag() * 100000);
-        //auto found = (it != m_taggedItems.end());
+        //  std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), iconID + type * 1000 + menu->getTag() * 100000);
+        //  auto found = (it != m_taggedItems.end());
 
         auto found = false;
         for (int ii : m_taggedItems){
@@ -495,8 +495,7 @@ void ShoppingListAlert::onIcon(CCObject *sender){
             auto btn = static_cast<CCMenuItemSpriteExtra *>(sender);
             auto icon = static_cast<GJItemIcon *>(btn->getChildren()->objectAtIndex(0));
             auto label = static_cast<CCLabelBMFont *>(icon->getChildByID("icon-price"));
-
-            //  auto arrayID = parameters->p_iconID + parameters->p_iconType * 1000 + parameters->p_shopID * 100000;
+            auto arrayID = parameters->p_iconID + parameters->p_iconType * 1000 + parameters->p_shopID * 100000;
 
             if(parameters->p_selected){
                 //  log::debug("Icon Deselected");
@@ -525,7 +524,7 @@ void ShoppingListAlert::onIcon(CCObject *sender){
                 m_tagged[parameters -> p_shopID - 1]++;
 
                 label->setColor({ 0, 255, 255 });
-                //  m_taggedItems.push_back(arrayID);
+                m_taggedItems.push_back(arrayID);
             }
 
             parameters->p_selected = !parameters->p_selected;
