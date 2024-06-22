@@ -1,24 +1,34 @@
 # Changelog
 
-## v1.0.0-beta.4 (Latest)
+## <cg>v1.0.0</c> (Latest)
 
-* **Added major feature: "Select Mode".**
-* You can tag which Icons to buy and how much is the sum of all.
-* Shop buttons now have a mark if you have Selected items.
-* Selected icons will have it's price colored blue.
-* More Bugfixes.
+* <cp>Public release</c>
+* <cy>Renamed</c> mod to "Shopping List"
 
-## v1.0.0-beta.3
+### <cb>v1.0.0-beta.4</c>
 
-* Fixed bug where Icon Popup doesn't show up.
+* <co>Ported to Geode v3.0.0-beta.4</c>
+* <cg>Added</c> **Select Mode** (Select items and see the sum of the costs)
+* <cg>Added</c> mark when you have items selected in other shops
+* <cg>Added</c> info button in the Shops (Bottom Left)
+* More bugfixes
 
-## v1.0.0-beta.1
+### <cb>v1.0.0-beta.3</c>
 
-* Added Mod button on the Shops (Grey Info button in the bottom-left).
-* Added setting where you can remove the button from the Icon Kit.
-* Optimized code (hopefully to prevent lag spikes).
-* Minor bugfixes.
+* <co>Ported to Geode v3.0.0-beta.3</c>
+* <cg>Fixed</c> bug where Icon Popup didn't open
 
-## v1.0.0-alpha.1
+### <cb>v1.0.0-beta.2</c>
 
-* Initial version.
+* <co>Ported to Geode v3.0.0-beta.2</c>
+* Minor bugfixes
+
+### <cb>v1.0.0-beta.1</c>
+
+* <cg>Added</c> "Garage Button" setting
+* Optimized code
+* Minor bugfixes
+
+### <cb>v1.0.0-alpha.1</c>
+
+* <cp>Initial version</c>
