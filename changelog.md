@@ -2,8 +2,8 @@
 
 ## <cg>v1.0.0</c> (Latest)
 
+* <cp>Public release</c>
 * <cy>Renamed</c> mod to "Shopping List"
-* Public release
 
 ### <cb>v1.0.0-beta.4</c>
 
