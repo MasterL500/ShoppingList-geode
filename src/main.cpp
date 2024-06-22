@@ -8,9 +8,9 @@ using namespace geode::prelude;
 class $modify(ModLayer, GJGarageLayer){
 	bool init(){
 		if(!GJGarageLayer::init()) return false;
-		auto noGarageButton = Mod::get()->getSettingValue<bool>("no-garage-button");
+		auto garageButton = Mod::get()->getSettingValue<bool>("no-garage-button");
 
-		if(!noGarageButton){
+		if(garageButton){
 			NodeIDs::provideFor(this);
 
 			auto menu = this->getChildByID("shards-menu");
