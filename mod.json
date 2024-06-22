@@ -10,6 +10,9 @@
 	"developer": "ML500",
 	"description": "Making sure you have enough Mana Orbs.",
 	"repository": "https://github.com/MasterL500/ShoppingList-geode",
+	"links": {
+        "community": "https://discord.gg/tFUyJw5"
+    },
 	"tags": ["interface", "utility", "enhancement"],
 	"dependencies": [
 		{

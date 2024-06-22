@@ -3,10 +3,11 @@
 ## <cg>v1.0.0</c> (Latest)
 
 * <cy>Renamed</c> mod to "Shopping List"
-* Public release.
+* Public release
 
 ### <cb>v1.0.0-beta.4</c>
 
+* <co>Ported to Geode v3.0.0-beta.4</c>
 * <cg>Added</c> **Select Mode** (Select items and see the sum of the costs)
 * <cg>Added</c> mark when you have items selected in other shops
 * <cg>Added</c> info button in the Shops (Bottom Left)
@@ -14,12 +15,12 @@
 
 ### <cb>v1.0.0-beta.3</c>
 
-* <cp>Ported to Geode v3.0.0-beta.3</c>
+* <co>Ported to Geode v3.0.0-beta.3</c>
 * <cg>Fixed</c> bug where Icon Popup didn't open
 
 ### <cb>v1.0.0-beta.2</c>
 
-* <cp>Ported to Geode v3.0.0-beta.2</c>
+* <co>Ported to Geode v3.0.0-beta.2</c>
 * Minor bugfixes
 
 ### <cb>v1.0.0-beta.1</c>
@@ -30,4 +31,4 @@
 
 ### <cb>v1.0.0-alpha.1</c>
 
-* Initial Version.
+* <cp>Initial version</c>
