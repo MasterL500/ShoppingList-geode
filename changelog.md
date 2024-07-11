@@ -1,6 +1,10 @@
 # Changelog
 
-## <cg>v1.0.0</c> (Latest)
+## <cg>v1.0.1</c> (Latest)
+
+* <cg>Fixed</c> icon placement errors.
+
+### <cb>v1.0.0</c> (Latest)
 
 * <cp>Public release</c>
 * <cy>Renamed</c> mod to "Shopping List"
