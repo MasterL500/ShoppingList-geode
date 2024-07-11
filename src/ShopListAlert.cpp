@@ -155,6 +155,15 @@ bool ShoppingListAlert::setup()
     orbsPrice->setVisible(false);
     orbsIcon->setVisible(false);
 
+    auto selectAllSpr = ButtonSprite::create("Select All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
+    auto selectAllBtn = CCMenuItemSpriteExtra::create(
+        selectAllSpr,
+        this,
+        nullptr
+    );
+
+    selectMenu->addChild(selectAllBtn);
+
     this->m_noElasticity = true;
     this->setTitle("The Shop");
     return true;
@@ -186,8 +195,7 @@ void ShoppingListAlert::createIconPage(int ID, int index)
     iconMenu->updateLayout();
     iconMenu->setTag(ID);
 
-    switch (ID)
-    {
+    switch (ID){
     case 1:
         if (index == 1)
         {
@@ -204,7 +212,7 @@ void ShoppingListAlert::createIconPage(int ID, int index)
         else
         {
             //  THE SHOP (Extras)
-            createItem(iconMenu, 0x2, {{33, 1000}, {35, 1000}, {36, 1000}, {39, 1000}, {84, 1500}, {97, 2500}, {99, 1500}}, false);
+            createItem(iconMenu, 0x2, {{33, 1000}, {35, 1000}, {36, 1000}, {84, 1500}, {97, 2500}, {99, 1500}}, false);
             createItem(iconMenu, 0x3, {{28, 1000}, {39, 1000}, {49, 2500}, {88, 2000}, {104, 2000}}, false);
             createItem(iconMenu, 0xB, {{8, 7000}, {11, 7000}}, false);
         }
@@ -215,7 +223,7 @@ void ShoppingListAlert::createIconPage(int ID, int index)
         {
             //  SECRET SHOP (Icons)
             createItem(iconMenu, 0x1, {{85, 2500}, {94, 3000}, {96, 2000}, {110, 5000}, {136, 5000}, {206, 2000}, {225, 3000}, {229, 5000}}, false);
-            createItem(iconMenu, 0x4, {{58, 4000}, {138, 4000}}, false);
+            createItem(iconMenu, 0x4, {{58, 4000}, {77, 4000}}, false);
             createItem(iconMenu, 0x5, {{25, 2000}, {60, 2500}, {107, 3000}}, false);
             createItem(iconMenu, 0x6, {{21, 4000}, {83, 3000}, {104, 2500}}, false);
             createItem(iconMenu, 0x7, {{18, 2000}, {78, 2500}}, false);
@@ -294,8 +302,8 @@ void ShoppingListAlert::createIconPage(int ID, int index)
             createItem(iconMenu, 0xE, {{5, 500}}, true);
 
             //  DIAMOND SHOP (Extras)
-            createItem(iconMenu, 0x2, {{64, 100}, {71, 100}, {77, 100}, {98, 100}, {100, 100}}, true);
-            createItem(iconMenu, 0x3, {{45, 100}, {59, 100}, {72, 100}, {74, 100}, {77, 100}, {89, 100}, {106, 100}}, true);
+            createItem(iconMenu, 0x2, {{64, 100}, {71, 100}, {74, 100}, {77, 100}, {98, 100}, {100, 100}}, true);
+            createItem(iconMenu, 0x3, {{43, 100}, {59, 100}, {72, 100}, {77, 100}, {89, 100}, {106, 100}}, true);
             createItem(iconMenu, 0xB, {{18, 1500}}, true);
             createItem(iconMenu, 0xC, {{17, 2000}}, true);
         }
