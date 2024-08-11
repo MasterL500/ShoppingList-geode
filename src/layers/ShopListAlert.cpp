@@ -185,6 +185,17 @@ bool ShoppingListAlert::setup()
     orbsPrice->setVisible(false);
     orbsIcon->setVisible(false);
 
+    /*
+    auto selectAllSpr = ButtonSprite::create("Select All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
+    auto selectAllBtn = CCMenuItemSpriteExtra::create(
+        selectAllSpr,
+        this,
+        nullptr
+    );
+
+    selectMenu->addChild(selectAllBtn);
+    */
+
     this->m_noElasticity = true;
     this->setTitle("The Shop");
     return true;
