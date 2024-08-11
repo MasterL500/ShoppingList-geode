@@ -210,7 +210,6 @@ void ShoppingListAlert::loadData(){
 
 void ShoppingListAlert::createIconPage(int ID, int index)
 {
-    //  auto order = Mod::get()->getSettingValue<std::string>("shopping-list-icon-order");
     auto menu = this->getChildByIDRecursive("icon-menu");
     auto iconMenu = static_cast<CCMenu *>(menu);
     auto iconList = ShopData;
