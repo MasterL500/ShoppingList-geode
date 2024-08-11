@@ -1,10 +1,10 @@
 # <cp>Shopping List</c>
 
-Wanna know how many Orbs or Diamonds it costs to buy everything? This mod displays a list of all the items you can buy (or have bought) from the Five shops in the game!
+Wanna know how many Orbs or Diamonds it costs to buy everything? This mod displays a list of all the items you can buy (or have bought) from the five shops in the game!
 
 ## Features
 
-* <cg>Displays a list of all the items</c>> sold by each shop
+* <cg>Displays a list of all the items</c> sold by each shop
 * <cg>Select Mode</c> allows you to tag items and see the overall cost
 * All the items you have bought will be checkmarked
 

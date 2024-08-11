@@ -6,7 +6,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
 project(ShoppingList VERSION 1.0.0)
 
-file(GLOB SOURCES
+file(GLOB_RECURSE SOURCES
 	src/*.cpp
 )
 

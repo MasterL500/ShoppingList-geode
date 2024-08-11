@@ -18,7 +18,7 @@ Geode-exclusive mod that I programmed for the game Geometry Dash, publicly avail
 
 ## To-do List
 
-* Select/Deselect all and sorting options
+* ~~Select/Deselect all and sorting options~~ COMPLETED
 * Add the paths of power and their costs
 * MacOS compatibility
 * Extra details
