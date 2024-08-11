@@ -1,10 +1,16 @@
 # Changelog
 
-## <cg>v1.0.1</c> (Latest)
+## <cg>v1.1.0</c> (Latest)
+
+* <cg>Added</c> select options (Select/Unselect all)
+* <cg>Fixed</c> placement errors and typos
+* Minor bugfixes
+
+### <cb>v1.0.1</c>
 
 * <cg>Fixed</c> icon placement errors.
 
-### <cb>v1.0.0</c> (Latest)
+#### <cb>v1.0.0</c>
 
 * <cp>Public release</c>
 * <cy>Renamed</c> mod to "Shopping List"

@@ -1,16 +1,17 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/GJGarageLayer.hpp>
 #include <Geode/modify/GJShopLayer.hpp>
-#include "ShopListAlert.hpp"
+#include "layers/ShopListAlert.hpp"
 
 using namespace geode::prelude;
 
+// GARAGE LAYER
 class $modify(ModLayer, GJGarageLayer){
 	bool init(){
 		if(!GJGarageLayer::init()) return false;
-		auto garageButton = Mod::get()->getSettingValue<bool>("no-garage-button");
+		auto sl_garageButton = Mod::get()->getSettingValue<bool>("shopping-list-no-garage-button");
 
-		if(garageButton){
+		if(sl_garageButton){
 			NodeIDs::provideFor(this);
 
 			auto menu = this->getChildByID("shards-menu");
@@ -35,6 +36,7 @@ class $modify(ModLayer, GJGarageLayer){
 	}
 };
 
+// SHOP LAYER
 class $modify(ShopLayer, GJShopLayer){
 	bool init(ShopType p0){
 		if(!GJShopLayer::init(p0)) return false;
@@ -57,9 +59,9 @@ class $modify(ShopLayer, GJShopLayer){
 		menu->updateLayout();
 		this->addChild(menu);
 		return true;
-		}
+	}
 
-		void onInfoButton(CCObject *){
-			ShoppingListAlert::create()->show();
-		}
-	};
+	void onInfoButton(CCObject *){
+		ShoppingListAlert::create()->show();
+	}
+};

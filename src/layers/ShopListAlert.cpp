@@ -5,12 +5,13 @@
 struct IconParameters : public CCObject
 {
     bool p_selected;
+    bool p_unlocked;
     int p_iconPrice;
     int p_iconType;
     int p_iconID;
     int p_shopID;
 
-    IconParameters(int type, int id, int price, int shop, bool selected) : p_iconType(type), p_iconID(id), p_iconPrice(price), p_shopID(shop), p_selected(selected) {
+    IconParameters(int type, int id, int price, int shop, bool unlocked, bool selected) : p_iconType(type), p_iconID(id), p_iconPrice(price), p_shopID(shop), p_unlocked(unlocked), p_selected(selected) {
         this->autorelease();
     }
 };
@@ -25,7 +26,7 @@ bool ShoppingListAlert::setup()
     iconListBG->setPosition({winSize.width / 2.f, winSize.height / 2.f + 2.f});
     iconListBG->setColor({ 133, 68, 41 });
     iconListBG->setContentSize({430, 176});
-	this->addChild(iconListBG);
+	m_mainLayer->addChild(iconListBG);
 
     //  Info Button (Menu)
     auto infoMenu = CCMenu::create();
@@ -43,7 +44,7 @@ bool ShoppingListAlert::setup()
     infoButton->setPosition(infoMenu->getContentSize());
     infoButton->setID("info-button");
     infoMenu->addChild(infoButton);
-    this->addChild(infoMenu);
+    m_mainLayer->addChild(infoMenu);
 
     //  Navigation Menu
     auto navMenu = CCMenu::create();
@@ -51,7 +52,7 @@ bool ShoppingListAlert::setup()
     navMenu->setLayout(RowLayout::create()
             ->setGap(6.f));
     navMenu->setID("navigation-menu");
-    this->addChild(navMenu);
+    m_mainLayer->addChild(navMenu);
 
     //  Navigation Menu (Buttons)
     for (int ii = 1; ii <= 5; ii++){
@@ -65,7 +66,7 @@ bool ShoppingListAlert::setup()
                 ->setGrowCrossAxis(true)
                 ->setCrossAxisOverflow(false));
     pageNavMenu->setID("page-menu");
-    this->addChild(pageNavMenu);
+    m_mainLayer->addChild(pageNavMenu);
 
     auto prevBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"),
@@ -103,7 +104,7 @@ bool ShoppingListAlert::setup()
     iconMenu->setID("icon-menu");
     iconMenu->setPositionY(winSize.height / 2 + 8.f);
     iconMenu->setScale(0.8f);
-    this->addChild(iconMenu);
+    m_mainLayer->addChild(iconMenu);
 
     createIconPage(1, 1);
 
@@ -121,7 +122,35 @@ bool ShoppingListAlert::setup()
 
     checkButton->setID("select-button");
     selectMenu->addChild(checkButton);
-    this->addChild(selectMenu);
+    m_mainLayer->addChild(selectMenu);
+
+    //  Select Options (Menu)
+    auto selectOptionsMenu = CCMenu::create();
+    selectOptionsMenu->setPosition({winSize.width / 2, winSize.height / 2 - 145.0f});
+    selectOptionsMenu->setLayout(RowLayout::create()
+        ->setGap(6.f));
+    
+    auto selectAllSpr = ButtonSprite::create("Select All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
+    auto selectAllBtn = CCMenuItemSpriteExtra::create(
+        selectAllSpr,
+        this,
+        menu_selector(ShoppingListAlert::onSelectAll)
+    );
+
+    auto deselectAllSpr = ButtonSprite::create("Deselect All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
+    auto deselectAllBtn = CCMenuItemSpriteExtra::create(
+        deselectAllSpr,
+        this,
+        menu_selector(ShoppingListAlert::onDeselectAll)
+    );
+
+    selectOptionsMenu->addChild(selectAllBtn);
+    selectOptionsMenu->addChild(deselectAllBtn);
+    selectOptionsMenu->updateLayout();
+
+    selectOptionsMenu->setID("select-options-menu");
+    selectOptionsMenu->setVisible(false);
+    m_mainLayer->addChild(selectOptionsMenu);
 
     //  Orbs Pricing (When Select Mode is enabled)
     auto orbsPrice = CCLabelBMFont::create(std::to_string(m_totalManaOrbs).c_str(), "bigFont.fnt");
@@ -129,40 +158,32 @@ bool ShoppingListAlert::setup()
     orbsPrice->setAnchorPoint({0.0f, 0.5f});
     orbsPrice->setID("orbs-label");
     orbsPrice->setScale(0.55f);
-    this->addChild(orbsPrice);
 
     auto orbsIcon = CCSprite::createWithSpriteFrameName("currencyOrbIcon_001.png");
     orbsIcon->setPositionY(winSize.height / 2 - 105.0f);
     orbsIcon->setPositionX(orbsPrice->getPositionX() - 12.0f);
     orbsIcon->setID("orbs-icon");
-    this->addChild(orbsIcon);
 
     auto diamondsPrice = CCLabelBMFont::create(std::to_string(m_totalDiamonds).c_str(), "bigFont.fnt");
     diamondsPrice->setPosition({winSize.width / 2 - 160.0f + orbsPrice->getContentWidth() + 25.0f, winSize.height / 2 - 104.0f});
     diamondsPrice->setAnchorPoint({0.0f, 0.5f});
     diamondsPrice->setID("diamonds-label");
     diamondsPrice->setScale(0.55f);
-    this->addChild(diamondsPrice);
 
     auto diamondsIcon = CCSprite::createWithSpriteFrameName("currencyDiamondIcon_001.png");
     diamondsIcon->setPositionY(winSize.height / 2 - 105.0f);
     diamondsIcon->setPositionX(diamondsPrice->getPositionX() - 15.0f);
     diamondsIcon->setID("diamonds-icon");
-    this->addChild(diamondsIcon);
+
+    m_mainLayer->addChild(orbsPrice);
+    m_mainLayer->addChild(orbsIcon);
+    m_mainLayer->addChild(diamondsPrice);
+    m_mainLayer->addChild(diamondsIcon);
 
     diamondsPrice->setVisible(false);
     diamondsIcon->setVisible(false);
     orbsPrice->setVisible(false);
     orbsIcon->setVisible(false);
-
-    auto selectAllSpr = ButtonSprite::create("Select All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
-    auto selectAllBtn = CCMenuItemSpriteExtra::create(
-        selectAllSpr,
-        this,
-        nullptr
-    );
-
-    selectMenu->addChild(selectAllBtn);
 
     this->m_noElasticity = true;
     this->setTitle("The Shop");
@@ -171,143 +192,46 @@ bool ShoppingListAlert::setup()
 
 void ShoppingListAlert::loadData(){
     auto gsm = GameStatsManager::sharedState();
-    //  log::info("Function called");
-    for(auto ii = SHOPS.begin(); ii != SHOPS.end(); ii++){
-        //  log::info("hello {}", ii->first);
-        for(auto jj = ii->second.begin(); jj != ii->second.end(); jj++){
-            //  log::info("-- hai {}", jj->first);
-            for(auto &kk: jj->second){
-                //  log::info("-- greetings {}", kk);
-                if (gsm->isItemUnlocked(UnlockType{jj->first}, kk)){
-                    m_itemCount[ii->first]++;
-                };
-            }
+
+    for (auto ii = ShopData.begin(); ii != ShopData.end(); ii++){
+        //  log::debug("Icon: {} {} - Unlocked?: {}", ii->at(0), ii->at(1), gsm->isItemUnlocked(UnlockType{ii->at(0)}, ii->at(1)));
+
+        if (gsm->isItemUnlocked(UnlockType{ii->at(0)}, ii->at(1))){
+            m_itemCount[ii->at(3) - 1]++;
         }
-    };
+    }
+
+    for (auto jj = ShopDataExtras.begin(); jj != ShopDataExtras.end(); jj++){
+        if (gsm->isItemUnlocked(UnlockType{jj->at(0)}, jj->at(1))){
+            m_itemCount[jj->at(3) - 1]++;
+        }
+    }
 };
 
 void ShoppingListAlert::createIconPage(int ID, int index)
 {
-    auto menu = this->getChildByID("icon-menu");
+    //  auto order = Mod::get()->getSettingValue<std::string>("shopping-list-icon-order");
+    auto menu = this->getChildByIDRecursive("icon-menu");
     auto iconMenu = static_cast<CCMenu *>(menu);
+    auto iconList = ShopData;
+    auto extrasList = ShopDataExtras;
 
     iconMenu->removeAllChildren();
     iconMenu->updateLayout();
     iconMenu->setTag(ID);
+    
+    for (auto ii = iconList.begin(); ii != iconList.end(); ii++){
+        if (ii->at(3) != ID || ii->at(4) != index) continue;
 
-    switch (ID){
-    case 1:
-        if (index == 1)
-        {
-            // THE SHOP (Icons)
-            createItem(iconMenu, 0x1, {{73, 1000}, {77, 1000}, {79, 500}, {86, 1000}, {102, 1000}, {107, 1000}, {109, 4000}, {113, 4000}, {140, 3000}, {162, 3000}, {191, 3000}}, false);
-            createItem(iconMenu, 0x4, {{27, 2000}}, false);
-            createItem(iconMenu, 0x5, {{19, 1500}, {20, 1000}, {40, 4000}, {57, 3000}}, false);
-            createItem(iconMenu, 0x6, {{23, 2500}, {25, 2000}, {40, 3500}}, false);
-            createItem(iconMenu, 0x7, {{21, 500}, {35, 4000}, {38, 5000}}, false);
-            createItem(iconMenu, 0x8, {{12, 3000}, {33, 3500}}, false);
-            createItem(iconMenu, 0x9, {{2, 2000}, {18, 4000}}, false);
-            createItem(iconMenu, 0xD, {{7, 5000}}, false);
-        }
-        else
-        {
-            //  THE SHOP (Extras)
-            createItem(iconMenu, 0x2, {{33, 1000}, {35, 1000}, {36, 1000}, {84, 1500}, {97, 2500}, {99, 1500}}, false);
-            createItem(iconMenu, 0x3, {{28, 1000}, {39, 1000}, {49, 2500}, {88, 2000}, {104, 2000}}, false);
-            createItem(iconMenu, 0xB, {{8, 7000}, {11, 7000}}, false);
-        }
-        break;
+        createItem(iconMenu, ii->at(0), {{ii->at(1), ii->at(2)}}, (ID == 4));
+    }
 
-    case 2:
-        if (index == 1)
-        {
-            //  SECRET SHOP (Icons)
-            createItem(iconMenu, 0x1, {{85, 2500}, {94, 3000}, {96, 2000}, {110, 5000}, {136, 5000}, {206, 2000}, {225, 3000}, {229, 5000}}, false);
-            createItem(iconMenu, 0x4, {{58, 4000}, {77, 4000}}, false);
-            createItem(iconMenu, 0x5, {{25, 2000}, {60, 2500}, {107, 3000}}, false);
-            createItem(iconMenu, 0x6, {{21, 4000}, {83, 3000}, {104, 2500}}, false);
-            createItem(iconMenu, 0x7, {{18, 2000}, {78, 2500}}, false);
-            createItem(iconMenu, 0x8, {{14, 3000}, {45, 3500}}, false);
-            createItem(iconMenu, 0x9, {{3, 3000}, {58, 3500}, {69, 5000}}, false);
-            createItem(iconMenu, 0xD, {{12, 6000}, {27, 6000}}, false);
-        }
-        else
-        {
-            //  SECRET SHOP (Extras)
-            createItem(iconMenu, 0x2, {{39, 1000}, {40, 1000}, {49, 1000}, {94, 1000}}, false);
-            createItem(iconMenu, 0x3, {{32, 1000}, {41, 1000}, {85, 1500}, {86, 1000}, {70, 1000}}, false);
-            createItem(iconMenu, 0xA, {{7, 4000}}, false);
-            createItem(iconMenu, 0xB, {{13, 10000}, {16, 15000}}, false);
-            createItem(iconMenu, 0xC, {{4, 1000}}, false);
-        }
-        break;
+    if(index == 2){
+        for (auto jj = extrasList.begin(); jj != extrasList.end(); jj++){
+            if (jj->at(3) != ID) continue;
 
-    case 3:
-        if (index == 1)
-        {
-            //  COMMUNITY SHOP (Icons)
-            createItem(iconMenu, 0x1, {{117, 4000}, {118, 2000}, {119, 2000}, {120, 4000}, {121, 2000}, {122, 2000}, {123, 6000}, {124, 8000}, {125, 4000}, {126, 2000}, {127, 6000}, {128, 8000}, {129, 6000}, {130, 4000}, {131, 4000}, {132, 4000}, {133, 8000}, {134, 6000}, {135, 6000}}, false);
-            createItem(iconMenu, 0x4, {{36, 2000}, {37, 2000}, {38, 6000}, {39, 2000}, {40, 4000}, {41, 4000}, {42, 6000}, {43, 2000}, {44, 6000}, {45, 8000}, {46, 4000}, {47, 6000}, {48, 4000}}, false);
-            createItem(iconMenu, 0x5, {{30, 4000}, {31, 6000}, {32, 6000}, {33, 2000}, {34, 4000}, {35, 8000}, {36, 6000}, {37, 2000}}, false);
+            createItem(iconMenu, jj->at(0), {{jj->at(1), jj->at(2)}}, (ID == 4));
         }
-        else
-        {
-            createItem(iconMenu, 0x5, {{38, 2000}}, false);
-            createItem(iconMenu, 0x6, {{29, 6000}, {30, 6000}, {31, 4000}, {32, 6000}, {33, 4000}, {34, 2000}, {35, 2000}}, false);
-            createItem(iconMenu, 0x7, {{24, 2000}, {25, 4000}, {26, 2000}, {27, 2000}, {28, 6000}, {29, 6000}, {30, 4000}, {31, 6000}, {32, 2000}, {33, 6000}}, false);
-            createItem(iconMenu, 0x8, {{18, 2000}, {19, 6000}, {20, 2000}, {21, 4000}, {22, 6000}, {23, 2000}, {24, 6000}, {25, 4000}}, false);
-            createItem(iconMenu, 0x9, {{11, 4000}, {12, 6000}, {13, 4000}, {14, 8000}, {15, 2000}, {16, 6000}}, false);
-        }
-        break;
-
-    case 4:
-        if (index == 1)
-        {
-            //  THE MECHANIC (Icons)
-            createItem(iconMenu, 0x1, {{168, 5000}, {185, 6000}, {190, 5000}, {230, 6000}, {253, 7000}, {358, 6000}, {360, 6000}, {480, 5000}}, false);
-            createItem(iconMenu, 0x4, {{80, 6000}, {111, 6000}, {126, 7000}, {144, 5000}, {164, 7000}}, false);
-            createItem(iconMenu, 0x5, {{49, 6000}, {54, 5000}, {64, 5000}, {65, 5000}}, false);
-            createItem(iconMenu, 0x6, {{86, 7000}, {95, 7000}, {107, 6000}, {132, 6000}, {136, 5000}}, false);
-            createItem(iconMenu, 0x7, {{68, 5000}, {77, 7000}, {85, 6000}}, false);
-            createItem(iconMenu, 0x8, {{52, 9000}, {68, 7000}}, false);
-            createItem(iconMenu, 0x9, {{50, 6000}, {56, 6000}}, false);
-            createItem(iconMenu, 0xD, {{6, 6000}}, false);
-        }
-        else
-        {
-            //  THE MECHANIC (Extras)
-            createItem(iconMenu, 0xC, {{18, 15000}, {19, 15000}, {20, 15000}}, false);
-            createItem(iconMenu, 0xF, {{2, 20000}, {3, 20000}, {4, 20000}, {5, 20000}, {6, 20000}}, false);
-            createItem(iconMenu, 0xB, {{19, 15000}}, false);
-            createItem(iconMenu, 0xC, {{16, 40000}}, false);
-        }
-        break;
-
-    case 5:
-        if (index == 1)
-        {
-            //  DIAMOND SHOP (Icons)
-            createItem(iconMenu, 0x1, {{181, 300}, {186, 500}, {196, 400}, {203, 600}, {250, 300}, {263, 600}, {290, 400}, {314, 400}, {421, 500}, {443, 600}, {450, 500}, {456, 400}, {463, 400}, {464, 500}, {465, 400}, {471, 400}, {474, 300}, {478, 400}}, true);
-            createItem(iconMenu, 0x4, {{62, 500}, {63, 300}, {66, 500}, {81, 600}, {87, 400}, {125, 500}, {129, 400}, {131, 500}, {168, 600}}, true);
-            createItem(iconMenu, 0x5, {{53, 600}, {55, 300}, {81, 500}, {98, 300}, {112, 500}, {113, 400}, {116, 500}}, true);
-            createItem(iconMenu, 0x6, {{45, 500}, {52, 500}, {78, 300}, {80, 400}, {100, 600}, {140, 600}}, true);
-        }
-        else
-        {
-            createItem(iconMenu, 0x6, {{149, 600}, {141, 500}}, true);
-            createItem(iconMenu, 0x7, {{56, 400}, {65, 300}, {75, 500}, {80, 300}, {82, 500}, {87, 400}}, true);
-            createItem(iconMenu, 0x8, {{34, 500}, {49, 500}, {51, 500}, {62, 300}, {63, 600}}, true);
-            createItem(iconMenu, 0x9, {{22, 400}, {29, 500}, {54, 300}, {60, 400}, {64, 500}, {65, 300}, {66, 500}}, true);
-            createItem(iconMenu, 0xD, {{10, 500}, {30, 500}, {40, 600}, {41, 400}, {42, 500}}, true);
-            createItem(iconMenu, 0xE, {{5, 500}}, true);
-
-            //  DIAMOND SHOP (Extras)
-            createItem(iconMenu, 0x2, {{64, 100}, {71, 100}, {74, 100}, {77, 100}, {98, 100}, {100, 100}}, true);
-            createItem(iconMenu, 0x3, {{43, 100}, {59, 100}, {72, 100}, {77, 100}, {89, 100}, {106, 100}}, true);
-            createItem(iconMenu, 0xB, {{18, 1500}}, true);
-            createItem(iconMenu, 0xC, {{17, 2000}}, true);
-        }
-        break;
     }
 };
 
@@ -318,7 +242,8 @@ void ShoppingListAlert::createNavButton(CCMenu *menu, int tag, bool active)
                 : (tag == 2) ? "SL_ShopKeeper02.png"_spr
                 : (tag == 3) ? "SL_ShopKeeper03.png"_spr
                 : (tag == 4) ? "SL_ShopKeeper04.png"_spr
-                : "SL_ShopKeeper05.png"_spr;
+                : (tag == 5) ? "SL_ShopKeeper05.png"_spr
+                : "SL_PathIcon.png"_spr;
 
     //  Base color based on whenever the current page is on
     auto baseColor = (active) ? IconSelectBaseColor::Selected : IconSelectBaseColor::Unselected;
@@ -351,7 +276,7 @@ void ShoppingListAlert::createNavButton(CCMenu *menu, int tag, bool active)
 //  When a Navigation button was pressed
 void ShoppingListAlert::onNavButton(CCObject *sender)
 {
-    auto menu = this->getChildByID("navigation-menu");
+    auto menu = this->getChildByIDRecursive("navigation-menu");
     auto navMenu = static_cast<CCMenu *>(menu);
     auto tag = sender->getTag();
 
@@ -359,9 +284,10 @@ void ShoppingListAlert::onNavButton(CCObject *sender)
 
     auto shopTitle = (tag == 1) ? "The Shop" 
             : (tag == 2) ? "Scratch's Shop"
-            : (tag == 3)   ? "Community Shop"
-            : (tag == 4)   ? "The Mechanic"
-            : "Diamond Shop";
+            : (tag == 3) ? "Community Shop"
+            : (tag == 4) ? "The Mechanic"
+            : (tag == 5) ? "Diamond Shop"
+            : "Paths of Power";
     this->setTitle(shopTitle);
 
     navMenu->removeAllChildren();
@@ -372,16 +298,16 @@ void ShoppingListAlert::onNavButton(CCObject *sender)
         createNavButton(navMenu, ii, tag == ii);
     };
 
-    auto iconPage = this->getChildByID("icon-menu");
+    auto iconPage = this->getChildByIDRecursive("icon-menu");
     auto iconMenu = static_cast<CCMenu *>(iconPage);
     iconMenu->removeAllChildren();
     iconMenu->updateLayout();
 
     createIconPage(tag, 1);
 
-    auto pageMenu = this->getChildByID("page-menu");
-    auto prevArrow = pageMenu->getChildByID("arrow-prev-button");
-    auto nextArrow = pageMenu->getChildByID("arrow-next-button");
+    auto pageMenu = this->getChildByIDRecursive("page-menu");
+    auto prevArrow = pageMenu->getChildByIDRecursive("arrow-prev-button");
+    auto nextArrow = pageMenu->getChildByIDRecursive("arrow-next-button");
     nextArrow->setVisible(true);
     prevArrow->setVisible(false);
 };
@@ -390,13 +316,13 @@ void ShoppingListAlert::onNavButton(CCObject *sender)
 void ShoppingListAlert::onPageButton(CCObject * sender){
     auto tag = sender->getTag();
 
-    auto pageMenu = this->getChildByID("page-menu");
-    auto prevArrow = pageMenu->getChildByID("arrow-prev-button");
-    auto nextArrow = pageMenu->getChildByID("arrow-next-button");
+    auto pageMenu = this->getChildByIDRecursive("page-menu");
+    auto prevArrow = pageMenu->getChildByIDRecursive("arrow-prev-button");
+    auto nextArrow = pageMenu->getChildByIDRecursive("arrow-next-button");
     nextArrow->setVisible(tag == 1);
     prevArrow->setVisible(tag == 2);
 
-    auto iconPage = this->getChildByID("icon-menu");
+    auto iconPage = this->getChildByIDRecursive("icon-menu");
     auto iconMenu = static_cast<CCMenu *>(iconPage);
 
     iconMenu->removeAllChildren();
@@ -405,22 +331,60 @@ void ShoppingListAlert::onPageButton(CCObject * sender){
     createIconPage(m_currentPage, tag);
 };
 
-
+//  When the Select Button is pressed.
 void ShoppingListAlert::onSelectButton(CCObject * sender){
     CCMenuItemToggler * toggler = static_cast<CCMenuItemToggler *>(sender);
     m_selectMode = !toggler->isToggled();
 
-    auto diamondsPrice = static_cast<CCLabelBMFont *>(this->getChildByID("diamonds-label"));
-    auto diamondsIcon = static_cast<CCSprite *>(this->getChildByID("diamonds-icon"));
-    auto orbsPrice = static_cast<CCLabelBMFont *>(this->getChildByID("orbs-label"));
-    auto orbsIcon = static_cast<CCSprite *>(this->getChildByID("orbs-icon"));
+    auto selectOptionsMenu = static_cast<CCMenu *>(this->getChildByIDRecursive("select-options-menu"));
+    auto diamondsPrice = static_cast<CCLabelBMFont *>(this->getChildByIDRecursive("diamonds-label"));
+    auto diamondsIcon = static_cast<CCSprite *>(this->getChildByIDRecursive("diamonds-icon"));
+    auto orbsPrice = static_cast<CCLabelBMFont *>(this->getChildByIDRecursive("orbs-label"));
+    auto orbsIcon = static_cast<CCSprite *>(this->getChildByIDRecursive("orbs-icon"));
 
+    selectOptionsMenu->setVisible(!toggler->isToggled());
     diamondsPrice->setVisible(!toggler->isToggled());
     diamondsIcon->setVisible(!toggler->isToggled());
     orbsPrice->setVisible(!toggler->isToggled());
     orbsIcon->setVisible(!toggler->isToggled());
 
     //  log::debug("Select mode: {}", m_selectMode);
+};
+
+//  Selects all the icons found in the current Icon page
+void ShoppingListAlert::onSelectAll(CCObject * sender){
+    auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
+    auto iconPage = this->getChildByIDRecursive("icon-menu");
+    auto iconMenu = static_cast<CCMenu *>(iconPage);
+    auto icons = iconMenu->getChildren();
+
+    for (unsigned int ii = 0; ii < iconMenu->getChildrenCount(); ii++){
+        auto node = icons->objectAtIndex(ii);
+        auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(node)->getUserObject());
+
+        //  log::debug("Icon {} - Selected: {} - Unlocked: {}", parameters->p_iconID, parameters->p_selected, parameters->p_unlocked);
+
+        if(!parameters->p_selected && (!parameters->p_unlocked || noCheckmark)){
+            onIcon(node);
+        }
+    }
+};
+
+//  Un-selects all the icons from the current Icon page
+void ShoppingListAlert::onDeselectAll(CCObject * sender){
+    auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
+    auto iconPage = this->getChildByIDRecursive("icon-menu");
+    auto iconMenu = static_cast<CCMenu *>(iconPage);
+    auto icons = iconMenu->getChildren();
+
+    for (unsigned int ii = 0; ii < iconMenu->getChildrenCount(); ii++){
+        auto node = icons->objectAtIndex(ii);
+        auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(node)->getUserObject());
+
+        if(parameters->p_selected){
+            onIcon(node);
+        }
+    }
 };
 
 void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> icons, bool isDiamondShop)
@@ -435,13 +399,17 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
             if(ii == iconID + type * 1000 + menu->getTag() * 100000) found = true;
         }
 
-        auto noCheckmark = Mod::get()->getSettingValue<bool>("disable-checkmark");
+        auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
         auto gsm = GameStatsManager::sharedState();
+        auto gm = GameManager::sharedState();
         UnlockType iconType{type};
+        IconType iconStatus{type - 1};
 
         auto iconSpr = GJItemIcon::createBrowserItem(
             iconType,
             iconID);
+
+        //  log::debug("ITEM ID {} - UNLOCK STATE: {}", iconID, gm->isIconUnlocked(iconID, iconStatus));
 
         if (gsm->isItemUnlocked(iconType, iconID) && !noCheckmark)
         {
@@ -481,17 +449,45 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
         );
 
         //	Passes the user-defined IconParameters for its callback
-        iconButton->setUserObject(new IconParameters(type, iconID, price, menu->getTag(), found));
+        iconButton->setUserObject(new IconParameters(type, iconID, price, menu->getTag(), gsm->isItemUnlocked(iconType, iconID), found));
 
         menu->addChild(iconButton);
         menu->updateLayout();
+
+        //  log::debug("0x{}, {}, {}, {}, 1", std::format("{:x}", type), iconID, price, menu->getTag());
     }
 };
+
+/*  // TO ADD LATER
+void ShoppingListAlert::createPath(CCMenu *menu, int path){
+    auto gm = GameManager::sharedState();
+
+    auto pathSprite = CCSprite::createWithSpriteFrameName("pathIcon_01_001.png");
+    auto pathShardSprite = CCSprite::createWithSpriteFrameName("fireShardBig_001.png");
+
+    pathSprite->setAnchorPoint({0.5, 0.5});
+    pathSprite->addChild(pathShardSprite);
+
+    auto pathButton = CCMenuItemSpriteExtra::create(
+        pathSprite,
+        this,
+        nullptr
+    );
+
+    menu->addChild(pathButton);
+    menu->updateLayout();
+
+    switch (path){
+        case 1:
+
+    }
+};
+*/
 
 //	When a specific Icon Button is pressed
 void ShoppingListAlert::onIcon(CCObject *sender){
     auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(sender)->getUserObject());
-    auto noCheckmark = Mod::get()->getSettingValue<bool>("disable-checkmark");
+    auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
     UnlockType iconType{parameters->p_iconType};
     auto gsm = GameStatsManager::sharedState();
 
@@ -502,7 +498,7 @@ void ShoppingListAlert::onIcon(CCObject *sender){
         if(!gsm->isItemUnlocked(iconType, parameters->p_iconID) || noCheckmark){
             auto btn = static_cast<CCMenuItemSpriteExtra *>(sender);
             auto icon = static_cast<GJItemIcon *>(btn->getChildren()->objectAtIndex(0));
-            auto label = static_cast<CCLabelBMFont *>(icon->getChildByID("icon-price"));
+            auto label = static_cast<CCLabelBMFont *>(icon->getChildByIDRecursive("icon-price"));
             auto arrayID = parameters->p_iconID + parameters->p_iconType * 1000 + parameters->p_shopID * 100000;
 
             if(parameters->p_selected){
@@ -544,11 +540,11 @@ void ShoppingListAlert::onIcon(CCObject *sender){
 
             parameters->p_selected = !parameters->p_selected;
 
-            auto orbsPrice = static_cast<CCLabelBMFont *>(this->getChildByID("orbs-label"));
+            auto orbsPrice = static_cast<CCLabelBMFont *>(this->getChildByIDRecursive("orbs-label"));
             orbsPrice->setString(std::to_string(m_totalManaOrbs).c_str());
 
-            auto diamondsPrice = static_cast<CCLabelBMFont *>(this->getChildByID("diamonds-label"));
-            auto diamondsIcon = static_cast<CCSprite *>(this->getChildByID("diamonds-icon"));
+            auto diamondsPrice = static_cast<CCLabelBMFont *>(this->getChildByIDRecursive("diamonds-label"));
+            auto diamondsIcon = static_cast<CCSprite *>(this->getChildByIDRecursive("diamonds-icon"));
 
             diamondsPrice->setString(std::to_string(m_totalDiamonds).c_str());
             diamondsPrice->setPositionX(orbsPrice->getPositionX() + orbsPrice->getScaledContentSize().width + 30.0f);
