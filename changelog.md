@@ -1,6 +1,14 @@
 # Changelog
 
-## <cg>v1.1.0</c> (Latest)
+## <cg>v1.2.0-beta.1 (Latest)</c>
+
+* <cp>Work in progress</c>
+* <cg>Added</c> **Paths of Power** page (Disabled by default)
+* <cg>Added</c> setting to display the Paths.
+* <cy>Re-written</c> settings, added new experimental tab.
+* Minor bugfixes
+
+### <cb>v1.1.0</c>
 
 * <cg>Added</c> select options (Select/Unselect all)
 * <cg>Fixed</c> placement errors and typos

@@ -20,15 +20,19 @@ class ShoppingListAlert : public Popup<> {
 
         bool setup() override;
 
-        void createItem(CCMenu *, int, std::map<int, int>, bool);
-        //  void createPath(CCMenu *, int);
-
         void createNavButton(CCMenu *, int, bool);
         void createIconPage(int, int);
 
         void onNavButton(CCObject *);
         void onPageButton(CCObject *);
         void onInfoButton(CCObject *);
+
+        void createItem(CCMenu *, int, std::map<int, int>, bool);
+        
+        void createPath(CCMenu *, int);
+        void createPathPage(int);
+        void onPath(CCObject *);
+
         void onSelectButton(CCObject *);
         void onSelectAll(CCObject *);
         void onDeselectAll(CCObject *);

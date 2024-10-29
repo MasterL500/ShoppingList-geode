@@ -296,3 +296,24 @@ const std::vector<std::vector<int>> ShopDataExtras = {
     {0xb, 18, 1500, 5, 2},
     {0xc, 17, 2000, 5, 2},
 };
+
+const std::vector<std::vector<int>> PathData = {
+    //  REFERENCE
+    //  - UnlockType (GameStatsManager): Doesn't work for Icons >:v
+    //  - Icon ID
+    //  - Price in the shop
+    //  - Page ID (For the mod)
+    //  - Path ID
+    //  - IconType (GameManager)
+
+    {0x1, 213, 25000, 6, 1, 0},
+    {0x9, 49, 25000, 6, 2, 6},
+    {0x1, 274, 25000, 6, 3, 0},
+    {0x1, 188, 25000, 6, 4, 0},
+    {0x4, 60, 25000, 6, 5, 1},
+    {0x1, 227, 25000, 6, 6, 0},
+    {0x1, 431, 25000, 6, 7, 0},
+    {0x1, 217, 25000, 6, 8, 0},
+    {0x5, 93, 25000, 6, 9, 2},
+    {0x1, 172, 25000, 6, 10, 0},
+};

@@ -1,19 +1,18 @@
 {
-	"geode": "3.4.0",
+	"geode": "3.8.1",
+	"version": "v1.2.0-beta.1",
 	"gd": {
 		"win": "2.206",
 		"android": "2.206"
 	},
-	"version": "v1.1.0",
 	"id": "ml5.shopping-list",
 	"name": "Shopping List",
-	"developer": "ML500",
+	"developers": ["ML500"],
 	"description": "Making sure you have enough Mana Orbs.",
-	"repository": "https://github.com/MasterL500/ShoppingList-geode",
 	"links": {
-        "community": "https://discord.gg/tFUyJw5"
+		"source": "https://github.com/MasterL500/ShoppingList-geode",
+		"community": "https://discord.gg/tFUyJw5"
     },
-	"tags": ["interface", "utility", "enhancement"],
 	"dependencies": [
 		{
 			"id": "geode.node-ids",
@@ -38,6 +37,18 @@
 			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
 			"type": "bool",
 			"default": false
+		},
+		"experimental-segment": {
+			"type": "title",
+			"name": "Experimental features",
+			"description": "This section is for features that are in active development. Not everything will be stable for all devices."
+		},
+		"show-paths": {
+			"type": "bool",
+			"name": "Display Paths",
+			"description": "Adds a sixth page that goes for the <cy>Paths of Power</c>",
+			"default": false
 		}
-	}
+	},
+	"tags": ["interface", "utility", "enhancement"]
 }
