@@ -11,22 +11,24 @@ struct IconParameters : public CCObject
     int p_iconID;
     int p_shopID;
 
-    IconParameters(int type, int id, int price, int shop, bool unlocked, bool selected) : p_iconType(type), p_iconID(id), p_iconPrice(price), p_shopID(shop), p_unlocked(unlocked), p_selected(selected) {
+    IconParameters(int type, int id, int price, int shop, bool unlocked, bool selected) : p_iconType(type), p_iconID(id), p_iconPrice(price), p_shopID(shop), p_unlocked(unlocked), p_selected(selected)
+    {
         this->autorelease();
     }
 };
 
 bool ShoppingListAlert::setup()
 {
+    auto showPathsPage = Mod::get()->getSettingValue<bool>("show-paths");
     auto winSize = CCDirector::sharedDirector()->getWinSize();
     loadData();
 
     //  Background for the Icon Lists
     auto iconListBG = CCScale9Sprite::create("square02b_001.png", {0, 0, 80, 80});
     iconListBG->setPosition({winSize.width / 2.f, winSize.height / 2.f + 2.f});
-    iconListBG->setColor({ 133, 68, 41 });
+    iconListBG->setColor({133, 68, 41});
     iconListBG->setContentSize({430, 176});
-	m_mainLayer->addChild(iconListBG);
+    m_mainLayer->addChild(iconListBG);
 
     //  Info Button (Menu)
     auto infoMenu = CCMenu::create();
@@ -38,8 +40,7 @@ bool ShoppingListAlert::setup()
     auto infoButton = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_infoIcon_001.png"),
         this,
-        menu_selector(ShoppingListAlert::onInfoButton)
-    );
+        menu_selector(ShoppingListAlert::onInfoButton));
 
     infoButton->setPosition(infoMenu->getContentSize());
     infoButton->setID("info-button");
@@ -48,26 +49,29 @@ bool ShoppingListAlert::setup()
 
     //  Navigation Menu
     auto navMenu = CCMenu::create();
-    navMenu->setPosition({winSize.width / 2 + 110.0f, winSize.height / 2 - 104.0f});
+    navMenu->setPosition({winSize.width / 2 + 100.0f, winSize.height / 2 - 104.0f});
     navMenu->setLayout(RowLayout::create()
-            ->setGap(6.f));
+                           ->setGap(4.f));
     navMenu->setID("navigation-menu");
     m_mainLayer->addChild(navMenu);
 
     //  Navigation Menu (Buttons)
-    for (int ii = 1; ii <= 5; ii++){
+    //  * I know this method to add the paths page is terrible
+    for (int ii = 1; ii <= 5 + showPathsPage; ii++)
+    {
         createNavButton(navMenu, ii, ii == 1);
     };
 
     //  Arrow Buttons for shops with more than One page
     auto pageNavMenu = CCMenu::create();
     pageNavMenu->setLayout(RowLayout::create()
-                ->setGap(460.0f)
-                ->setGrowCrossAxis(true)
-                ->setCrossAxisOverflow(false));
+                               ->setGap(460.0f)
+                               ->setGrowCrossAxis(true)
+                               ->setCrossAxisOverflow(false));
     pageNavMenu->setID("page-menu");
     m_mainLayer->addChild(pageNavMenu);
 
+    //  Previous page (Arrow button to change page within a shop)
     auto prevBtn = CCMenuItemSpriteExtra::create(
         CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png"),
         this,
@@ -75,9 +79,9 @@ bool ShoppingListAlert::setup()
     prevBtn->setID("arrow-prev-button");
     prevBtn->setTag(1);
 
+    //  Next page (Arrow button to change page within a shop)
     auto nextSpr = CCSprite::createWithSpriteFrameName("GJ_arrow_01_001.png");
     nextSpr->setFlipX(true);
-
     auto nextBtn = CCMenuItemSpriteExtra::create(
         nextSpr,
         this,
@@ -92,15 +96,15 @@ bool ShoppingListAlert::setup()
     pageNavMenu->updateLayout();
     prevBtn->setVisible(false);
 
-    //  Creates the Menu
+    //  Creates the Menu to add the Icons, which clears everytime when the shop changes
     auto iconMenu = CCMenu::create();
     iconMenu->setContentSize({540.0f, 220.0f});
     iconMenu->setLayout(RowLayout::create()
-            ->setGap(24.0f)
-            ->setAutoScale(false)
-            ->setGrowCrossAxis(true)
-            ->setCrossAxisOverflow(false)
-            ->setCrossAxisLineAlignment(AxisAlignment::Even));
+                            ->setGap(24.0f)
+                            ->setAutoScale(false)
+                            ->setGrowCrossAxis(true)
+                            ->setCrossAxisOverflow(false)
+                            ->setCrossAxisLineAlignment(AxisAlignment::Even));
     iconMenu->setID("icon-menu");
     iconMenu->setPositionY(winSize.height / 2 + 8.f);
     iconMenu->setScale(0.8f);
@@ -117,8 +121,7 @@ bool ShoppingListAlert::setup()
     auto checkButton = CCMenuItemToggler::createWithStandardSprites(
         this,
         menu_selector(ShoppingListAlert::onSelectButton),
-        0.8f
-    );
+        0.8f);
 
     checkButton->setID("select-button");
     selectMenu->addChild(checkButton);
@@ -128,21 +131,21 @@ bool ShoppingListAlert::setup()
     auto selectOptionsMenu = CCMenu::create();
     selectOptionsMenu->setPosition({winSize.width / 2, winSize.height / 2 - 145.0f});
     selectOptionsMenu->setLayout(RowLayout::create()
-        ->setGap(6.f));
-    
+                                     ->setGap(6.f));
+
+    //  Select All (Option)
     auto selectAllSpr = ButtonSprite::create("Select All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
     auto selectAllBtn = CCMenuItemSpriteExtra::create(
         selectAllSpr,
         this,
-        menu_selector(ShoppingListAlert::onSelectAll)
-    );
+        menu_selector(ShoppingListAlert::onSelectAll));
 
+    //  Deselect All (Option)
     auto deselectAllSpr = ButtonSprite::create("Deselect All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
     auto deselectAllBtn = CCMenuItemSpriteExtra::create(
         deselectAllSpr,
         this,
-        menu_selector(ShoppingListAlert::onDeselectAll)
-    );
+        menu_selector(ShoppingListAlert::onDeselectAll));
 
     selectOptionsMenu->addChild(selectAllBtn);
     selectOptionsMenu->addChild(deselectAllBtn);
@@ -157,24 +160,26 @@ bool ShoppingListAlert::setup()
     orbsPrice->setPosition({winSize.width / 2 - 160.0f, winSize.height / 2 - 104.0f});
     orbsPrice->setAnchorPoint({0.0f, 0.5f});
     orbsPrice->setID("orbs-label");
-    orbsPrice->setScale(0.55f);
+    orbsPrice->setScale(0.45f);
 
     auto orbsIcon = CCSprite::createWithSpriteFrameName("currencyOrbIcon_001.png");
     orbsIcon->setPositionY(winSize.height / 2 - 105.0f);
     orbsIcon->setPositionX(orbsPrice->getPositionX() - 12.0f);
     orbsIcon->setID("orbs-icon");
 
+    //  Diamonds Pricing (When Select mode is Enabled)
     auto diamondsPrice = CCLabelBMFont::create(std::to_string(m_totalDiamonds).c_str(), "bigFont.fnt");
     diamondsPrice->setPosition({winSize.width / 2 - 160.0f + orbsPrice->getContentWidth() + 25.0f, winSize.height / 2 - 104.0f});
     diamondsPrice->setAnchorPoint({0.0f, 0.5f});
     diamondsPrice->setID("diamonds-label");
-    diamondsPrice->setScale(0.55f);
+    diamondsPrice->setScale(0.45f);
 
     auto diamondsIcon = CCSprite::createWithSpriteFrameName("currencyDiamondIcon_001.png");
     diamondsIcon->setPositionY(winSize.height / 2 - 105.0f);
     diamondsIcon->setPositionX(diamondsPrice->getPositionX() - 15.0f);
     diamondsIcon->setID("diamonds-icon");
 
+    //  Adds both price labels and icons
     m_mainLayer->addChild(orbsPrice);
     m_mainLayer->addChild(orbsIcon);
     m_mainLayer->addChild(diamondsPrice);
@@ -185,37 +190,50 @@ bool ShoppingListAlert::setup()
     orbsPrice->setVisible(false);
     orbsIcon->setVisible(false);
 
-    /*
-    auto selectAllSpr = ButtonSprite::create("Select All", 100, false, "bigFont.fnt", "GJ_button_04.png", 24, 0.25f);
-    auto selectAllBtn = CCMenuItemSpriteExtra::create(
-        selectAllSpr,
-        this,
-        nullptr
-    );
+    //  Experimental feature text (Shown only in the Path's page)
+    auto pathText = CCLabelBMFont::create("This feature is a work in progress", "chatFont.fnt");
+    pathText->setPosition({winSize.width / 2, winSize.height / 2 - 78.0f});
+    pathText->setColor({0, 0, 0});
+    pathText->setScale(0.8f);
+    pathText->setID("experimental-info");
+    pathText->setVisible(false);
 
-    selectMenu->addChild(selectAllBtn);
-    */
+    m_mainLayer->addChild(pathText);
 
+    //  Final features
     this->m_noElasticity = true;
     this->setTitle("The Shop");
     return true;
 };
 
-void ShoppingListAlert::loadData(){
+//  Saves up the amount of icons the player has unlocked so far
+void ShoppingListAlert::loadData()
+{
     auto gsm = GameStatsManager::sharedState();
+    auto gm = GameManager::sharedState();
 
-    for (auto ii = ShopData.begin(); ii != ShopData.end(); ii++){
+    for (auto ii = ShopData.begin(); ii != ShopData.end(); ii++)
+    {
         //  log::debug("Icon: {} {} - Unlocked?: {}", ii->at(0), ii->at(1), gsm->isItemUnlocked(UnlockType{ii->at(0)}, ii->at(1)));
 
-        if (gsm->isItemUnlocked(UnlockType{ii->at(0)}, ii->at(1))){
+        if (gsm->isItemUnlocked(UnlockType{ii->at(0)}, ii->at(1)))
+        {
             m_itemCount[ii->at(3) - 1]++;
         }
     }
 
-    for (auto jj = ShopDataExtras.begin(); jj != ShopDataExtras.end(); jj++){
-        if (gsm->isItemUnlocked(UnlockType{jj->at(0)}, jj->at(1))){
+    for (auto jj = ShopDataExtras.begin(); jj != ShopDataExtras.end(); jj++)
+    {
+        if (gsm->isItemUnlocked(UnlockType{jj->at(0)}, jj->at(1)))
+        {
             m_itemCount[jj->at(3) - 1]++;
         }
+    }
+
+    for (auto kk = PathData.begin(); kk != PathData.end(); kk++) {
+        log::debug("Icon: {} {} - Unlocked?: {}", kk->at(1), kk->at(2), gm->isIconUnlocked( kk->at(2), IconType{kk->at(1)} ));
+        
+        if (gm->isIconUnlocked( kk->at(2), IconType{kk->at(1)} )) m_itemCount[5]++;
     }
 };
 
@@ -226,19 +244,25 @@ void ShoppingListAlert::createIconPage(int ID, int index)
     auto iconList = ShopData;
     auto extrasList = ShopDataExtras;
 
+    iconMenu->setContentSize({540.0f, 220.0f});
     iconMenu->removeAllChildren();
     iconMenu->updateLayout();
     iconMenu->setTag(ID);
-    
-    for (auto ii = iconList.begin(); ii != iconList.end(); ii++){
-        if (ii->at(3) != ID || ii->at(4) != index) continue;
+
+    for (auto ii = iconList.begin(); ii != iconList.end(); ii++)
+    {
+        if (ii->at(3) != ID || ii->at(4) != index)
+            continue;
 
         createItem(iconMenu, ii->at(0), {{ii->at(1), ii->at(2)}}, (ID == 4));
     }
 
-    if(index == 2){
-        for (auto jj = extrasList.begin(); jj != extrasList.end(); jj++){
-            if (jj->at(3) != ID) continue;
+    if (index == 2)
+    {
+        for (auto jj = extrasList.begin(); jj != extrasList.end(); jj++)
+        {
+            if (jj->at(3) != ID)
+                continue;
 
             createItem(iconMenu, jj->at(0), {{jj->at(1), jj->at(2)}}, (ID == 4));
         }
@@ -248,19 +272,20 @@ void ShoppingListAlert::createIconPage(int ID, int index)
 void ShoppingListAlert::createNavButton(CCMenu *menu, int tag, bool active)
 {
     //  Sprite based on the tag of the button
-    auto sprName = (tag == 1) ? "SL_ShopKeeper01.png"_spr
-                : (tag == 2) ? "SL_ShopKeeper02.png"_spr
-                : (tag == 3) ? "SL_ShopKeeper03.png"_spr
-                : (tag == 4) ? "SL_ShopKeeper04.png"_spr
-                : (tag == 5) ? "SL_ShopKeeper05.png"_spr
-                : "SL_PathIcon.png"_spr;
+    auto sprName = (tag == 1)   ? "SL_ShopKeeper01.png"_spr
+                   : (tag == 2) ? "SL_ShopKeeper02.png"_spr
+                   : (tag == 3) ? "SL_ShopKeeper03.png"_spr
+                   : (tag == 4) ? "SL_ShopKeeper04.png"_spr
+                   : (tag == 5) ? "SL_ShopKeeper05.png"_spr
+                                : "SL_PathIcon.png"_spr;
 
     //  Base color based on whenever the current page is on
     auto baseColor = (active) ? IconSelectBaseColor::Selected : IconSelectBaseColor::Unselected;
 
     auto buttonSpr = IconSelectButtonSprite::createWithSprite(sprName, 1.25F, baseColor);
 
-    if(!active && m_tagged[tag - 1] > 0){
+    if (!active && m_tagged[tag - 1] > 0)
+    {
         auto mark = CCSprite::create("SL_ExMark.png"_spr);
         mark->setPosition({27.f, 10.f});
         mark->setScale(0.75f);
@@ -286,24 +311,25 @@ void ShoppingListAlert::createNavButton(CCMenu *menu, int tag, bool active)
 //  When a Navigation button was pressed
 void ShoppingListAlert::onNavButton(CCObject *sender)
 {
+    auto showPathsPage = Mod::get()->getSettingValue<bool>("show-paths");
     auto menu = this->getChildByIDRecursive("navigation-menu");
     auto navMenu = static_cast<CCMenu *>(menu);
     auto tag = sender->getTag();
 
     m_currentPage = tag;
 
-    auto shopTitle = (tag == 1) ? "The Shop" 
-            : (tag == 2) ? "Scratch's Shop"
-            : (tag == 3) ? "Community Shop"
-            : (tag == 4) ? "The Mechanic"
-            : (tag == 5) ? "Diamond Shop"
-            : "Paths of Power";
+    auto shopTitle = (tag == 1)   ? "The Shop"
+                     : (tag == 2) ? "Scratch's Shop"
+                     : (tag == 3) ? "Community Shop"
+                     : (tag == 4) ? "The Mechanic"
+                     : (tag == 5) ? "Diamond Shop"
+                                  : "Paths of Power";
     this->setTitle(shopTitle);
 
     navMenu->removeAllChildren();
     navMenu->updateLayout();
 
-    for (int ii = 1; ii <= 5; ii++)
+    for (int ii = 1; ii <= 5 + showPathsPage; ii++)
     {
         createNavButton(navMenu, ii, tag == ii);
     };
@@ -313,17 +339,30 @@ void ShoppingListAlert::onNavButton(CCObject *sender)
     iconMenu->removeAllChildren();
     iconMenu->updateLayout();
 
-    createIconPage(tag, 1);
-
     auto pageMenu = this->getChildByIDRecursive("page-menu");
     auto prevArrow = pageMenu->getChildByIDRecursive("arrow-prev-button");
     auto nextArrow = pageMenu->getChildByIDRecursive("arrow-next-button");
-    nextArrow->setVisible(true);
-    prevArrow->setVisible(false);
+    auto textInfo = this->getChildByIDRecursive("experimental-info");
+
+    if (tag != 6)
+    {
+        createIconPage(tag, 1);
+        nextArrow->setVisible(true);
+        prevArrow->setVisible(false);
+        textInfo->setVisible(false);
+    }
+    else
+    {
+        createPathPage(tag);
+        nextArrow->setVisible(false);
+        prevArrow->setVisible(false);
+        textInfo->setVisible(true);
+    }
 };
 
 //  When the Arrow buttons are pressed
-void ShoppingListAlert::onPageButton(CCObject * sender){
+void ShoppingListAlert::onPageButton(CCObject *sender)
+{
     auto tag = sender->getTag();
 
     auto pageMenu = this->getChildByIDRecursive("page-menu");
@@ -342,8 +381,9 @@ void ShoppingListAlert::onPageButton(CCObject * sender){
 };
 
 //  When the Select Button is pressed.
-void ShoppingListAlert::onSelectButton(CCObject * sender){
-    CCMenuItemToggler * toggler = static_cast<CCMenuItemToggler *>(sender);
+void ShoppingListAlert::onSelectButton(CCObject *sender)
+{
+    CCMenuItemToggler *toggler = static_cast<CCMenuItemToggler *>(sender);
     m_selectMode = !toggler->isToggled();
 
     auto selectOptionsMenu = static_cast<CCMenu *>(this->getChildByIDRecursive("select-options-menu"));
@@ -362,36 +402,42 @@ void ShoppingListAlert::onSelectButton(CCObject * sender){
 };
 
 //  Selects all the icons found in the current Icon page
-void ShoppingListAlert::onSelectAll(CCObject * sender){
+void ShoppingListAlert::onSelectAll(CCObject *sender)
+{
     auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
     auto iconPage = this->getChildByIDRecursive("icon-menu");
     auto iconMenu = static_cast<CCMenu *>(iconPage);
     auto icons = iconMenu->getChildren();
 
-    for (unsigned int ii = 0; ii < iconMenu->getChildrenCount(); ii++){
+    for (unsigned int ii = 0; ii < iconMenu->getChildrenCount(); ii++)
+    {
         auto node = icons->objectAtIndex(ii);
         auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(node)->getUserObject());
 
         //  log::debug("Icon {} - Selected: {} - Unlocked: {}", parameters->p_iconID, parameters->p_selected, parameters->p_unlocked);
 
-        if(!parameters->p_selected && (!parameters->p_unlocked || noCheckmark)){
+        if (!parameters->p_selected && (!parameters->p_unlocked || noCheckmark))
+        {
             onIcon(node);
         }
     }
 };
 
 //  Un-selects all the icons from the current Icon page
-void ShoppingListAlert::onDeselectAll(CCObject * sender){
+void ShoppingListAlert::onDeselectAll(CCObject *sender)
+{
     auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
     auto iconPage = this->getChildByIDRecursive("icon-menu");
     auto iconMenu = static_cast<CCMenu *>(iconPage);
     auto icons = iconMenu->getChildren();
 
-    for (unsigned int ii = 0; ii < iconMenu->getChildrenCount(); ii++){
+    for (unsigned int ii = 0; ii < iconMenu->getChildrenCount(); ii++)
+    {
         auto node = icons->objectAtIndex(ii);
         auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(node)->getUserObject());
 
-        if(parameters->p_selected){
+        if (parameters->p_selected)
+        {
             onIcon(node);
         }
     }
@@ -400,13 +446,15 @@ void ShoppingListAlert::onDeselectAll(CCObject * sender){
 void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> icons, bool isDiamondShop)
 {
     for (auto const &[iconID, price] : icons)
-    {   
+    {
         //  std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), iconID + type * 1000 + menu->getTag() * 100000);
         //  auto found = (it != m_taggedItems.end());
 
         auto found = false;
-        for (int ii : m_taggedItems){
-            if(ii == iconID + type * 1000 + menu->getTag() * 100000) found = true;
+        for (int ii : m_taggedItems)
+        {
+            if (ii == iconID + type * 1000 + menu->getTag() * 100000)
+                found = true;
         }
 
         auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
@@ -446,7 +494,8 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
             value->setID("icon-price");
             value->setScale(0.4f);
 
-            if(found)value->setColor({ 0, 255, 255 });
+            if (found)
+                value->setColor({0, 255, 255});
 
             iconSpr->addChild(value);
         };
@@ -455,8 +504,7 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
         auto iconButton = CCMenuItemSpriteExtra::create(
             iconSpr,
             this,
-            menu_selector(ShoppingListAlert::onIcon)
-        );
+            menu_selector(ShoppingListAlert::onIcon));
 
         //	Passes the user-defined IconParameters for its callback
         iconButton->setUserObject(new IconParameters(type, iconID, price, menu->getTag(), gsm->isItemUnlocked(iconType, iconID), found));
@@ -468,83 +516,113 @@ void ShoppingListAlert::createItem(CCMenu *menu, int type, std::map<int, int> ic
     }
 };
 
-/*  // TO ADD LATER
-void ShoppingListAlert::createPath(CCMenu *menu, int path){
+void ShoppingListAlert::createPathPage(int ID)
+{
+    auto winSize = CCDirector::sharedDirector()->getWinSize();
+    auto menu = this->getChildByIDRecursive("icon-menu");
+    auto iconMenu = static_cast<CCMenu *>(menu);
+    auto iconList = PathData;
+
+    iconMenu->setContentSize({350.0f, 220.0f});
+    iconMenu->removeAllChildren();
+    iconMenu->updateLayout();
+    iconMenu->setTag(ID);
+
     auto gm = GameManager::sharedState();
+    auto gsm = GameStatsManager::sharedState();
 
-    auto pathSprite = CCSprite::createWithSpriteFrameName("pathIcon_01_001.png");
-    auto pathShardSprite = CCSprite::createWithSpriteFrameName("fireShardBig_001.png");
+    for (int ii = 1; ii <= 10; ii++)
+    {
+        auto pathSprite = GJPathSprite::create(ii);
+        pathSprite->addShardSprite();
 
-    pathSprite->setAnchorPoint({0.5, 0.5});
-    pathSprite->addChild(pathShardSprite);
+        auto value = CCLabelBMFont::create("25000", "bigFont.fnt");
+        value->setPosition({pathSprite->getScaledContentSize().width / 2, pathSprite->getContentSize().height / 2 - 22.5f});
+        value->setID("icon-price");
+        value->setScale(0.4f);
 
-    auto pathButton = CCMenuItemSpriteExtra::create(
-        pathSprite,
-        this,
-        nullptr
-    );
+        pathSprite->addChild(value);
 
-    menu->addChild(pathButton);
-    menu->updateLayout();
+        for (auto jj = iconList.begin(); jj != iconList.end(); jj++)
+        {
+            if (jj->at(4) != ii)
+            {
+                continue;
+            }
 
-    switch (path){
-        case 1:
+            auto found = false;
+            for (int kk : m_taggedItems)
+            {
+                if (kk == jj->at(1) + jj->at(0) * 1000 + menu->getTag() * 100000)
+                    found = true;
+            }
 
+            UnlockType iconType{jj->at(0)};
+            IconType iconStatus{jj->at(0) - 1};
+
+            //  log::debug("Wow it's {}", jj->at(4));
+
+            auto pathButton = CCMenuItemSpriteExtra::create(
+                pathSprite,
+                this,
+                menu_selector(ShoppingListAlert::onPath));
+
+            if (found)
+                value->setColor({0, 255, 255});
+
+            pathButton->setUserObject(new IconParameters(jj->at(0), jj->at(2), jj->at(3), menu->getTag(), gm->isIconUnlocked( jj->at(2), IconType{jj->at(1)} ), found));
+            iconMenu->addChild(pathButton);
+        }
+
+        iconMenu->updateLayout();
     }
 };
-*/
 
-//	When a specific Icon Button is pressed
-void ShoppingListAlert::onIcon(CCObject *sender){
+void ShoppingListAlert::onPath(CCObject *sender)
+{
     auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(sender)->getUserObject());
-    auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
+    auto noCheckmark = Mod::get()->getSettingValue<bool>("sl-disable-checkmark");
     UnlockType iconType{parameters->p_iconType};
     auto gsm = GameStatsManager::sharedState();
 
-    //  log::debug("Select mode: {}", m_selectMode);
-    //  log::debug("Tag {}", parameters->p_shopID);
-
-    if(m_selectMode){
-        if(!gsm->isItemUnlocked(iconType, parameters->p_iconID) || noCheckmark){
+    if (m_selectMode)
+    {
+        if (!gsm->isItemUnlocked(iconType, parameters->p_iconID) || noCheckmark)
+        {
             auto btn = static_cast<CCMenuItemSpriteExtra *>(sender);
             auto icon = static_cast<GJItemIcon *>(btn->getChildren()->objectAtIndex(0));
             auto label = static_cast<CCLabelBMFont *>(icon->getChildByIDRecursive("icon-price"));
             auto arrayID = parameters->p_iconID + parameters->p_iconType * 1000 + parameters->p_shopID * 100000;
 
-            if(parameters->p_selected){
+            if (parameters->p_selected)
+            {
                 //  log::debug("Icon Deselected");
 
-                if(parameters->p_shopID != 5){
-                    m_totalManaOrbs -= parameters->p_iconPrice;
-                } else {
-                    m_totalDiamonds -= parameters->p_iconPrice;
-                }
+                m_totalManaOrbs -= parameters->p_iconPrice;
+                m_tagged[parameters->p_shopID - 1]--;
 
-                m_tagged[parameters -> p_shopID - 1]--;
-
-                label->setColor({ 255, 255, 255 });
+                label->setColor({255, 255, 255});
 
                 //  std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), arrayID);
                 //  m_taggedItems.erase(it);
 
                 std::vector<int>::iterator it;
-                for(it = m_taggedItems.begin(); it != m_taggedItems.end() && *it != arrayID; it++);
+                for (it = m_taggedItems.begin(); it != m_taggedItems.end() && *it != arrayID; it++)
+                    ;
 
-                if (it != m_taggedItems.end()){
+                if (it != m_taggedItems.end())
+                {
                     m_taggedItems.erase(it);
                 }
-            } else {
+            }
+            else
+            {
                 //  log::debug("Icon Selected");
 
-                if(parameters->p_shopID != 5){
-                    m_totalManaOrbs += parameters->p_iconPrice;
-                } else {
-                    m_totalDiamonds += parameters->p_iconPrice;
-                }
+                m_totalManaOrbs += parameters->p_iconPrice;
+                m_tagged[parameters->p_shopID - 1]++;
 
-                m_tagged[parameters -> p_shopID - 1]++;
-
-                label->setColor({ 0, 255, 255 });
+                label->setColor({0, 255, 255});
                 m_taggedItems.push_back(arrayID);
             }
 
@@ -561,26 +639,129 @@ void ShoppingListAlert::onIcon(CCObject *sender){
             diamondsIcon->setPositionX(diamondsPrice->getPositionX() - 15.0f);
 
             auto size = std::to_string(m_totalManaOrbs).length();
-        }else{
+        }
+        else
+        {
             FLAlertLayer::create("Nope", "You already bought this item.", "OK")->show();
         }
 
         //  log::debug("Set: {}", m_taggedItems);
-    } else {
+    }
+    else
+    {
+        ItemInfoPopup::create(parameters->p_iconID, iconType)->show();
+        //  log::debug("Icon Popup");
+    }
+}
+
+//	When a specific Icon Button is pressed
+void ShoppingListAlert::onIcon(CCObject *sender)
+{
+    auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(sender)->getUserObject());
+    auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
+    UnlockType iconType{parameters->p_iconType};
+    auto gsm = GameStatsManager::sharedState();
+
+    //  log::debug("Select mode: {}", m_selectMode);
+    //  log::debug("Tag {}", parameters->p_shopID);
+
+    if (m_selectMode)
+    {
+        if (!gsm->isItemUnlocked(iconType, parameters->p_iconID) || noCheckmark)
+        {
+            auto btn = static_cast<CCMenuItemSpriteExtra *>(sender);
+            auto icon = static_cast<GJItemIcon *>(btn->getChildren()->objectAtIndex(0));
+            auto label = static_cast<CCLabelBMFont *>(icon->getChildByIDRecursive("icon-price"));
+            auto arrayID = parameters->p_iconID + parameters->p_iconType * 1000 + parameters->p_shopID * 100000;
+
+            if (parameters->p_selected)
+            {
+                //  log::debug("Icon Deselected");
+
+                if (parameters->p_shopID != 5)
+                {
+                    m_totalManaOrbs -= parameters->p_iconPrice;
+                }
+                else
+                {
+                    m_totalDiamonds -= parameters->p_iconPrice;
+                }
+
+                m_tagged[parameters->p_shopID - 1]--;
+
+                label->setColor({255, 255, 255});
+
+                //  std::vector<int>::iterator it = std::find(m_taggedItems.begin(), m_taggedItems.end(), arrayID);
+                //  m_taggedItems.erase(it);
+
+                std::vector<int>::iterator it;
+                for (it = m_taggedItems.begin(); it != m_taggedItems.end() && *it != arrayID; it++)
+                    ;
+
+                if (it != m_taggedItems.end())
+                {
+                    m_taggedItems.erase(it);
+                }
+            }
+            else
+            {
+                //  log::debug("Icon Selected");
+
+                if (parameters->p_shopID != 5)
+                {
+                    m_totalManaOrbs += parameters->p_iconPrice;
+                }
+                else
+                {
+                    m_totalDiamonds += parameters->p_iconPrice;
+                }
+
+                m_tagged[parameters->p_shopID - 1]++;
+
+                label->setColor({0, 255, 255});
+                m_taggedItems.push_back(arrayID);
+            }
+
+            parameters->p_selected = !parameters->p_selected;
+
+            auto orbsPrice = static_cast<CCLabelBMFont *>(this->getChildByIDRecursive("orbs-label"));
+            orbsPrice->setString(std::to_string(m_totalManaOrbs).c_str());
+
+            auto diamondsPrice = static_cast<CCLabelBMFont *>(this->getChildByIDRecursive("diamonds-label"));
+            auto diamondsIcon = static_cast<CCSprite *>(this->getChildByIDRecursive("diamonds-icon"));
+
+            diamondsPrice->setString(std::to_string(m_totalDiamonds).c_str());
+            diamondsPrice->setPositionX(orbsPrice->getPositionX() + orbsPrice->getScaledContentSize().width + 30.0f);
+            diamondsIcon->setPositionX(diamondsPrice->getPositionX() - 15.0f);
+
+            auto size = std::to_string(m_totalManaOrbs).length();
+        }
+        else
+        {
+            FLAlertLayer::create("Nope", "You already bought this item.", "OK")->show();
+        }
+
+        //  log::debug("Set: {}", m_taggedItems);
+    }
+    else
+    {
         ItemInfoPopup::create(parameters->p_iconID, iconType)->show();
         //  log::debug("Icon Popup");
     }
 };
 
 //	When the Info Button is pressed, gives a quick summary of the Player's stats in the Treasure Room.
-void ShoppingListAlert::onInfoButton(CCObject * sender){
+void ShoppingListAlert::onInfoButton(CCObject *sender)
+{
     std::string info =
         "<cr>The Shop:</c> " + std::to_string(m_itemCount[0]) + " out of " + std::to_string(m_itemTotal[0]) +
         "\n<cg>Secret Shop:</c> " + std::to_string(m_itemCount[1]) + " out of " + std::to_string(m_itemTotal[1]) +
         "\n<cy>Community Shop:</c> " + std::to_string(m_itemCount[2]) + " out of " + std::to_string(m_itemTotal[2]) +
         "\n<cp>The Mechanic: </c> " + std::to_string(m_itemCount[3]) + " out of " + std::to_string(m_itemTotal[3]) +
-        "\n<cb>Diamond Shop:</c> " + std::to_string(m_itemCount[4]) + " out of " + std::to_string(m_itemTotal[4]);
-	FLAlertLayer::create("Shops", info.c_str(), "OK")->show();
+        "\n<cb>Diamond Shop:</c> " + std::to_string(m_itemCount[4]) + " out of " + std::to_string(m_itemTotal[4]) + 
+        "\n<co>Paths of Power:</c> " + std::to_string(m_itemCount[5]) + " out of " + std::to_string(m_itemTotal[5]);
+
+    FLAlertLayer::create("Stats", info.c_str(), "OK")->show();
 };
 
 ShoppingListAlert *ShoppingListAlert::create()

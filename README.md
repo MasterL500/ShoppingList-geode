@@ -1,11 +1,11 @@
-# Shopping List (GEODE MOD)
+# SHOPPING LIST (Geode Mod)
 
-Geode-exclusive mod that I programmed for the game Geometry Dash, publicly available in Geode 3.0.0 (Modloader to the game), where you can see the amount of Items you have bought (or haven't bought yet) from the five available shops in the game.
+This is a Geode-exclusive mod that I developed for the game Geometry Dash. It's publicly available in Geode 3.0.0 (the game's mod loader), and it allows you to view how many items you have purchased—or haven't yet—from the game's five shops.
 
 ## Settings
 
-* **Garage Button**: Removes the button of the mod from the Garage layer (Icon kit) so you can only see it in the Shops. This option is enabled by default.
-* **Disable Checkmark**: Icons aren't greyed out and displayed without the checkmark, if you want to see all the designs. This option is disabled by default.
+* **Garage Button**: Removes the button of the Mod from the Garage Layer (Icon kit), so you can only access it inside the Shops. This option is enabled by default.
+* **Disable Checkmark**: Icons aren't greyed out and displayed without a checkmark, if you want to see the designs. This option is enabled by default.
 
 ## Developer Commentary
 
@@ -22,3 +22,10 @@ Geode-exclusive mod that I programmed for the game Geometry Dash, publicly avail
 * Add the paths of power and their costs
 * MacOS compatibility
 * Extra details
+
+# Resources
+* [Geode SDK Documentation](https://docs.geode-sdk.org/)
+* [Geode SDK Source Code](https://github.com/geode-sdk/geode/)
+* [Geode CLI](https://github.com/geode-sdk/cli)
+* [Bindings](https://github.com/geode-sdk/bindings/)
+* [Dev Tools](https://github.com/geode-sdk/DevTools)
