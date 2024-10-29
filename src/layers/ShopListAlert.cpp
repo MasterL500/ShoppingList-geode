@@ -560,7 +560,7 @@ void ShoppingListAlert::createPathPage(int ID)
                 continue;
             }
 
-            if (gm->isIconUnlocked(jj->at(0), IconType{jj->at(5)}) && !noCheckmark)
+            if (gm->isIconUnlocked(jj->at(1), IconType{jj->at(5)}) && !noCheckmark)
             {
                 auto checkmark = CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png");
                 checkmark->setPosition({pathSprite->getContentSize().width / 2, pathSprite->getContentSize().height / 2 - 22.5f});
