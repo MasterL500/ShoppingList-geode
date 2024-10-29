@@ -12,6 +12,7 @@ Wanna know how many Orbs or Diamonds it costs to buy everything? This mod displa
 
 * Hide button from the Garage.
 * Disable Checkmark.
+* Display Paths (Experimental)
 
 ## Contact Info
 

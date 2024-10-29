@@ -191,7 +191,7 @@ bool ShoppingListAlert::setup()
     orbsIcon->setVisible(false);
 
     //  Experimental feature text (Shown only in the Path's page)
-    auto pathText = CCLabelBMFont::create("This feature is a work in progress", "chatFont.fnt");
+    auto pathText = CCLabelBMFont::create("This is still in development", "chatFont.fnt");
     pathText->setPosition({winSize.width / 2, winSize.height / 2 - 78.0f});
     pathText->setColor({0, 0, 0});
     pathText->setScale(0.8f);
@@ -230,10 +230,12 @@ void ShoppingListAlert::loadData()
         }
     }
 
-    for (auto kk = PathData.begin(); kk != PathData.end(); kk++) {
-        log::debug("Icon: {} {} - Unlocked?: {}", kk->at(1), kk->at(2), gm->isIconUnlocked( kk->at(2), IconType{kk->at(1)} ));
-        
-        if (gm->isIconUnlocked( kk->at(2), IconType{kk->at(1)} )) m_itemCount[5]++;
+    for (auto kk = PathData.begin(); kk != PathData.end(); kk++)
+    {
+        log::debug("Icon: {} {} - Unlocked?: {}", kk->at(0), kk->at(1), gm->isIconUnlocked(kk->at(1), IconType{kk->at(5)}));
+
+        if (gm->isIconUnlocked(kk->at(0), IconType{kk->at(5)}))
+            m_itemCount[5]++;
     }
 };
 
@@ -408,6 +410,9 @@ void ShoppingListAlert::onSelectAll(CCObject *sender)
     auto iconPage = this->getChildByIDRecursive("icon-menu");
     auto iconMenu = static_cast<CCMenu *>(iconPage);
     auto icons = iconMenu->getChildren();
+    auto tag = iconMenu->getTag();
+
+    log::debug("Tag {}", tag);
 
     for (unsigned int ii = 0; ii < iconMenu->getChildrenCount(); ii++)
     {
@@ -418,7 +423,11 @@ void ShoppingListAlert::onSelectAll(CCObject *sender)
 
         if (!parameters->p_selected && (!parameters->p_unlocked || noCheckmark))
         {
-            onIcon(node);
+            if (tag != 6){
+                onIcon(node);
+            } else {
+                onPath(node);
+            }
         }
     }
 };
@@ -523,13 +532,14 @@ void ShoppingListAlert::createPathPage(int ID)
     auto iconMenu = static_cast<CCMenu *>(menu);
     auto iconList = PathData;
 
+    auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
+    auto gsm = GameStatsManager::sharedState();
+    auto gm = GameManager::sharedState();
+
     iconMenu->setContentSize({350.0f, 220.0f});
     iconMenu->removeAllChildren();
     iconMenu->updateLayout();
     iconMenu->setTag(ID);
-
-    auto gm = GameManager::sharedState();
-    auto gsm = GameStatsManager::sharedState();
 
     for (int ii = 1; ii <= 10; ii++)
     {
@@ -548,6 +558,16 @@ void ShoppingListAlert::createPathPage(int ID)
             if (jj->at(4) != ii)
             {
                 continue;
+            }
+
+            if (gm->isIconUnlocked(jj->at(0), IconType{jj->at(5)}) && !noCheckmark)
+            {
+                auto checkmark = CCSprite::createWithSpriteFrameName("GJ_completesIcon_001.png");
+                checkmark->setPosition({pathSprite->getContentSize().width / 2, pathSprite->getContentSize().height / 2 - 22.5f});
+                checkmark->setScale(0.75f);
+                value->setVisible(false);
+
+                pathSprite->addChild(checkmark);
             }
 
             auto found = false;
@@ -570,7 +590,7 @@ void ShoppingListAlert::createPathPage(int ID)
             if (found)
                 value->setColor({0, 255, 255});
 
-            pathButton->setUserObject(new IconParameters(jj->at(0), jj->at(2), jj->at(3), menu->getTag(), gm->isIconUnlocked( jj->at(2), IconType{jj->at(1)} ), found));
+            pathButton->setUserObject(new IconParameters(jj->at(0), jj->at(1), jj->at(2), menu->getTag(), gsm->isItemUnlocked(iconType, jj->at(1)), found));
             iconMenu->addChild(pathButton);
         }
 
@@ -581,13 +601,16 @@ void ShoppingListAlert::createPathPage(int ID)
 void ShoppingListAlert::onPath(CCObject *sender)
 {
     auto parameters = static_cast<IconParameters *>(static_cast<CCNode *>(sender)->getUserObject());
-    auto noCheckmark = Mod::get()->getSettingValue<bool>("sl-disable-checkmark");
-    UnlockType iconType{parameters->p_iconType};
+    auto noCheckmark = Mod::get()->getSettingValue<bool>("shopping-list-disable-checkmark");
     auto gsm = GameStatsManager::sharedState();
+    auto gm = GameManager::sharedState();
+
+    UnlockType unlockType{parameters->p_iconType};
+    IconType iconType{std::max(parameters->p_iconType - 3, 0)};
 
     if (m_selectMode)
     {
-        if (!gsm->isItemUnlocked(iconType, parameters->p_iconID) || noCheckmark)
+        if (!gm->isIconUnlocked(parameters->p_iconID, iconType) || noCheckmark)
         {
             auto btn = static_cast<CCMenuItemSpriteExtra *>(sender);
             auto icon = static_cast<GJItemIcon *>(btn->getChildren()->objectAtIndex(0));
@@ -642,14 +665,14 @@ void ShoppingListAlert::onPath(CCObject *sender)
         }
         else
         {
-            FLAlertLayer::create("Nope", "You already bought this item.", "OK")->show();
+            if(noCheckmark) FLAlertLayer::create("Nope", "You already bought this item.", "OK")->show();
         }
 
         //  log::debug("Set: {}", m_taggedItems);
     }
     else
     {
-        ItemInfoPopup::create(parameters->p_iconID, iconType)->show();
+        ItemInfoPopup::create(parameters->p_iconID, unlockType)->show();
         //  log::debug("Icon Popup");
     }
 }
@@ -758,7 +781,7 @@ void ShoppingListAlert::onInfoButton(CCObject *sender)
         "\n<cg>Secret Shop:</c> " + std::to_string(m_itemCount[1]) + " out of " + std::to_string(m_itemTotal[1]) +
         "\n<cy>Community Shop:</c> " + std::to_string(m_itemCount[2]) + " out of " + std::to_string(m_itemTotal[2]) +
         "\n<cp>The Mechanic: </c> " + std::to_string(m_itemCount[3]) + " out of " + std::to_string(m_itemTotal[3]) +
-        "\n<cb>Diamond Shop:</c> " + std::to_string(m_itemCount[4]) + " out of " + std::to_string(m_itemTotal[4]) + 
+        "\n<cb>Diamond Shop:</c> " + std::to_string(m_itemCount[4]) + " out of " + std::to_string(m_itemTotal[4]) +
         "\n<co>Paths of Power:</c> " + std::to_string(m_itemCount[5]) + " out of " + std::to_string(m_itemTotal[5]);
 
     FLAlertLayer::create("Stats", info.c_str(), "OK")->show();

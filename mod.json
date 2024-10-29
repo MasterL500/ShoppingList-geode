@@ -41,7 +41,7 @@
 		"experimental-segment": {
 			"type": "title",
 			"name": "Experimental features",
-			"description": "This section is for features that are in active development."
+			"description": "This section is for features that are in active development. Not everything will be stable for all devices."
 		},
 		"show-paths": {
 			"type": "bool",

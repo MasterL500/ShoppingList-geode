@@ -6,6 +6,7 @@ This is a Geode-exclusive mod that I developed for the game Geometry Dash. It's 
 
 * **Garage Button**: Removes the button of the Mod from the Garage Layer (Icon kit), so you can only access it inside the Shops. This option is enabled by default.
 * **Disable Checkmark**: Icons aren't greyed out and displayed without a checkmark, if you want to see the designs. This option is enabled by default.
+* **Display Paths**: Adds a 6th page dedicated to the Paths of Power, this feature is a work-in-progress and might not work on all devices. This option is disabled by default.
 
 ## Developer Commentary
 
