@@ -4,9 +4,11 @@
 
 using namespace geode::prelude;
 
-class ShoppingListAlert : public Popup<> {
+class ShopRewardsListAlert : public Popup<int const&> {
     protected:
         size_t m_currentPage = 1;
+        size_t m_totalPages = 6;
+
         std::array<int, 6> m_itemTotal = {42, 38, 72, 40, 80, 10};
         std::array<int, 6> m_itemCount = {0, 0, 0, 0, 0, 0};
         std::array<int, 6> m_tagged = {0, 0, 0, 0, 0, 0};
@@ -18,7 +20,7 @@ class ShoppingListAlert : public Popup<> {
         int m_totalManaOrbs = 0;
         int m_totalDiamonds = 0;
 
-        bool setup() override;
+        bool setup(int const&) override;
 
         void createNavButton(CCMenu *, int, bool);
         void createIconPage(int, int);
@@ -39,6 +41,7 @@ class ShoppingListAlert : public Popup<> {
 
         void loadData();
     public:
-        static ShoppingListAlert * create();
+        static ShopRewardsListAlert * create(int const&);
+        void secretDialogue(int);
         void onIcon(CCObject *);
 };

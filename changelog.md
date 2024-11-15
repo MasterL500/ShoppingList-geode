@@ -1,6 +1,10 @@
 # Changelog
 
-## <cg>v1.2.0-beta.1 (Latest)</c>
+## <cg>v1.2.0-beta.2 (Latest)</c>
+
+* <co>Ported to Geode v4.0.0-beta.1</c>
+
+### <cb>v1.2.0-beta.1</c>
 
 * <cp>Work in progress</c>
 * <cg>Added</c> **Paths of Power** page (Disabled by default)

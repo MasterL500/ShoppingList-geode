@@ -9,7 +9,7 @@ using namespace geode::prelude;
 class $modify(ModLayer, GJGarageLayer){
 	bool init(){
 		if(!GJGarageLayer::init()) return false;
-		auto sl_garageButton = Mod::get()->getSettingValue<bool>("shopping-list-no-garage-button");
+		auto sl_garageButton = Mod::get()->getSettingValue<bool>("garage-button");
 
 		if(sl_garageButton){
 			NodeIDs::provideFor(this);
@@ -32,7 +32,7 @@ class $modify(ModLayer, GJGarageLayer){
 	}
 
 	void onShopListButton(CCObject *){
-		ShoppingListAlert::create()->show();
+		ShopRewardsListAlert::create(-1)->show();
 	}
 };
 
@@ -54,6 +54,7 @@ class $modify(ShopLayer, GJShopLayer){
 			this,
 			menu_selector(ShopLayer::onInfoButton));
 		button->setID("Shopping-List-Button");
+		button->setTag(int(p0));
 		
 		menu->addChild(button);
 		menu->updateLayout();
@@ -61,7 +62,11 @@ class $modify(ShopLayer, GJShopLayer){
 		return true;
 	}
 
-	void onInfoButton(CCObject *){
-		ShoppingListAlert::create()->show();
+	void onInfoButton(CCObject * sender){
+		log::debug("Value {}", sender->getTag());
+
+		ShopRewardsListAlert::create(sender->getTag())->show();
+
+		//	ShopRewardsListAlert::create()->show();
 	}
 };

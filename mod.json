@@ -1,9 +1,9 @@
 {
-	"geode": "3.8.1",
-	"version": "v1.2.0-beta.1",
+	"geode": "4.0.0-beta.1",
+	"version": "v1.2.0-beta.2",
 	"gd": {
-		"win": "2.206",
-		"android": "2.206"
+        "win": "2.2074",
+		"android": "2.2074"
 	},
 	"id": "ml5.shopping-list",
 	"name": "Shopping List",
@@ -20,28 +20,23 @@
 			"importance": "required"
 		}
 	],
-	"resources": {
-		"sprites": [
-			"resources/*.png"
-		]
-	},
+	
 	"settings": {
-		"shopping-list-no-garage-button": {
-			"name": "Garage Button",
-			"description": "If you want the Mod button in the Icon Kit (Garage). When disabled, you can only interact with the Info button located in the Shops.",
+		"garage-button": {
 			"type":	"bool",
+			"name": "Garage Button",
+			"description": "If you want the mod's button to show up in the Icon Kit",
 			"default": true
 		},
-		"shopping-list-disable-checkmark": {
+		"disable-checkmark": {
+			"type":	"bool",
 			"name": "Remove Checkmark",
 			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
-			"type": "bool",
 			"default": false
 		},
 		"experimental-segment": {
 			"type": "title",
-			"name": "Experimental features",
-			"description": "This section is for features that are in active development. Not everything will be stable for all devices."
+			"name": "Experimental features"
 		},
 		"show-paths": {
 			"type": "bool",
@@ -50,5 +45,10 @@
 			"default": false
 		}
 	},
-	"tags": ["interface", "utility", "enhancement"]
+	"resources": {
+		"sprites": [
+			"resources/*.png"
+		]
+	},
+	"tags": ["interface", "utility", "enhancement", "offline"]
 }
