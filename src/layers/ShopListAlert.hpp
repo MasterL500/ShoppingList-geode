@@ -6,7 +6,7 @@ using namespace geode::prelude;
 
 class ShopRewardsListAlert : public Popup<int const&> {
     protected:
-        size_t m_currentPage = 1;
+        size_t m_page = 1;
         size_t m_totalPages = 6;
 
         std::array<int, 6> m_itemTotal = {42, 38, 72, 40, 80, 10};

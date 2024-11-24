@@ -324,7 +324,7 @@ void ShopRewardsListAlert::onNavButton(CCObject *sender)
     auto navMenu = static_cast<CCMenu *>(menu);
     auto tag = sender->getTag();
 
-    m_currentPage = tag;
+    m_page = tag;
 
     auto shopTitle = (tag == 1)   ? "The Shop"
                      : (tag == 2) ? "Scratch's Shop"
@@ -385,7 +385,7 @@ void ShopRewardsListAlert::onPageButton(CCObject *sender)
     iconMenu->removeAllChildren();
     iconMenu->updateLayout();
 
-    createIconPage(m_currentPage, tag);
+    createIconPage(m_page, tag);
 };
 
 //  When the Select Button is pressed.
