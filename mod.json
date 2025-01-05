@@ -1,6 +1,6 @@
 {
-	"geode": "4.0.1",
-	"version": "v1.2.0-beta.3",
+	"geode": "4.1.1",
+	"version": "v1.2.0",
 	"gd": {
         "win": "2.2074",
 		"android": "2.2074"
@@ -16,7 +16,7 @@
 	"dependencies": [
 		{
 			"id": "geode.node-ids",
-			"version": ">=v1.12.0",
+			"version": ">=v1.17.0",
 			"importance": "required"
 		}
 	],
@@ -25,23 +25,19 @@
 		"garage-button": {
 			"type":	"bool",
 			"name": "Garage Button",
-			"description": "If you want the mod's button to show up in the Icon Kit",
+			"description": "If you want the mod's button to show up in the Icon Kit.",
+			"default": true
+		},
+		"show-paths": {
+			"type": "bool",
+			"name": "Display Paths",
+			"description": "Adds a sixth page that goes for the <cy>Paths of Power</c>.",
 			"default": true
 		},
 		"disable-checkmark": {
 			"type":	"bool",
 			"name": "Remove Checkmark",
 			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
-			"default": false
-		},
-		"experimental-segment": {
-			"type": "title",
-			"name": "Experimental features"
-		},
-		"show-paths": {
-			"type": "bool",
-			"name": "Display Paths",
-			"description": "Adds a sixth page that goes for the <cy>Paths of Power</c>",
 			"default": false
 		}
 	},

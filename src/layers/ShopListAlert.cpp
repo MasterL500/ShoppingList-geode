@@ -18,7 +18,7 @@ struct IconParameters : public CCObject
     }
 };
 
-bool ShopRewardsListAlert::setup(int const& shopType)
+bool ShopRewardsListAlert::setup(int const &shopType)
 {
     auto layerSize = m_mainLayer->getContentSize();
     auto showPathsPage = Mod::get()->getSettingValue<bool>("show-paths");
@@ -61,12 +61,13 @@ bool ShopRewardsListAlert::setup(int const& shopType)
     navMenu->setID("navigation-menu");
     m_mainLayer->addChild(navMenu);
 
+    //  Colors blue the button of the current Shop (If value is -1 it means it's from the Garage)
+    auto enabledButton = shopType != -1 ? shopType + 1 : 1;
+
     //  Navigation Menu (Buttons)
     //  * I know this method to add the paths page is terrible
-    for (int ii = 1; ii <= m_totalPages + !showPathsPage; ii++)
-    {
-        createNavButton(navMenu, ii, ii == 1);
-    };
+    for (int ii = 1; ii <= m_totalPages + showPathsPage; ii++)
+        createNavButton(navMenu, ii, ii == enabledButton);
 
     //  Arrow Buttons for shops with more than One page
     auto pageNavMenu = CCMenu::create();
@@ -111,12 +112,23 @@ bool ShopRewardsListAlert::setup(int const& shopType)
                             ->setGrowCrossAxis(true)
                             ->setCrossAxisOverflow(false)
                             ->setCrossAxisLineAlignment(AxisAlignment::Even));
+    iconMenu->setPosition({layerSize.width / 2, layerSize.height / 2 + 7.5f});
     iconMenu->setID("icon-menu");
-    iconMenu->setPositionY(layerSize.height / 2 + 8.f);
     iconMenu->setScale(0.8f);
-    m_mainLayer->addChildAtPosition(iconMenu, Anchor::Center);
 
-    createIconPage(1, 1);
+    m_mainLayer->addChild(iconMenu);
+
+    if (shopType != -1)
+        createIconPage(shopType + 1, 1);
+    else
+        createIconPage(1, 1);
+
+    auto shopTitle = (shopType == 1)   ? "Scratch's Shop"
+                     : (shopType == 2) ? "Community Shop"
+                     : (shopType == 3) ? "The Mechanic"
+                     : (shopType == 4) ? "Diamond Shop"
+                                       : "The Shop";
+    this->setTitle(shopTitle);
 
     //  Select Mode (Menu)
     auto selectMenu = CCMenu::create();
@@ -204,11 +216,10 @@ bool ShopRewardsListAlert::setup(int const& shopType)
     pathText->setID("experimental-info");
     pathText->setVisible(false);
 
-    m_mainLayer->addChild(pathText);
+    //  m_mainLayer->addChild(pathText);
 
     //  Final features
     this->m_noElasticity = true;
-    this->setTitle("The Shop");
     return true;
 };
 
@@ -238,7 +249,7 @@ void ShopRewardsListAlert::loadData()
 
     for (auto kk = PathData.begin(); kk != PathData.end(); kk++)
     {
-        log::debug("Icon: {} {} - Unlocked?: {}", kk->at(0), kk->at(1), gm->isIconUnlocked(kk->at(1), IconType{kk->at(5)}));
+        //  log::debug("Icon: {} {} - Unlocked?: {}", kk->at(0), kk->at(1), gm->isIconUnlocked(kk->at(1), IconType{kk->at(5)}));
 
         if (gm->isIconUnlocked(kk->at(0), IconType{kk->at(5)}))
             m_itemCount[5]++;
@@ -309,6 +320,7 @@ void ShopRewardsListAlert::createNavButton(CCMenu *menu, int tag, bool active)
 
     //  Adds ID and Tag
     button->setID("shop-button-" + std::to_string(tag));
+    button->setEnabled(!active);
     button->setTag(tag);
 
     //  Adds button to menu and updates layout.
@@ -337,7 +349,7 @@ void ShopRewardsListAlert::onNavButton(CCObject *sender)
     navMenu->removeAllChildren();
     navMenu->updateLayout();
 
-    for (int ii = 1; ii <= m_totalPages + !showPathsPage; ii++)
+    for (int ii = 1; ii <= m_totalPages + showPathsPage; ii++)
     {
         createNavButton(navMenu, ii, tag == ii);
     };
@@ -354,17 +366,22 @@ void ShopRewardsListAlert::onNavButton(CCObject *sender)
 
     if (tag != 6)
     {
+        iconMenu->setLayout(RowLayout::create()
+                                ->setGap(24.0f)
+                                ->setAutoScale(false)
+                                ->setGrowCrossAxis(true)
+                                ->setCrossAxisOverflow(false)
+                                ->setCrossAxisLineAlignment(AxisAlignment::Even));
+
         createIconPage(tag, 1);
         nextArrow->setVisible(true);
         prevArrow->setVisible(false);
-        textInfo->setVisible(false);
     }
     else
     {
         createPathPage(tag);
         nextArrow->setVisible(false);
         prevArrow->setVisible(false);
-        textInfo->setVisible(true);
     }
 };
 
@@ -545,10 +562,18 @@ void ShopRewardsListAlert::createPathPage(int ID)
     auto gsm = GameStatsManager::sharedState();
     auto gm = GameManager::sharedState();
 
-    iconMenu->setContentSize({350.0f, 220.0f});
+    iconMenu->setContentSize({380.0f, 140.0f});
     iconMenu->removeAllChildren();
-    iconMenu->updateLayout();
     iconMenu->setTag(ID);
+
+    iconMenu->setLayout(RowLayout::create()
+                            ->setGap(45.0f)
+                            ->setAutoScale(false)
+                            ->setGrowCrossAxis(true)
+                            ->setCrossAxisOverflow(false)
+                            ->setAxisAlignment(AxisAlignment::Between)
+                            ->setCrossAxisAlignment(AxisAlignment::Between)
+                            ->setCrossAxisLineAlignment(AxisAlignment::Even));
 
     for (int ii = 1; ii <= 10; ii++)
     {
@@ -595,6 +620,9 @@ void ShopRewardsListAlert::createPathPage(int ID)
                 pathSprite,
                 this,
                 menu_selector(ShopRewardsListAlert::onPath));
+
+            pathButton->setContentSize({40, 40});
+            pathSprite->setPosition({20, 20});
 
             if (found)
                 value->setColor({0, 255, 255});
@@ -682,8 +710,26 @@ void ShopRewardsListAlert::onPath(CCObject *sender)
     }
     else
     {
-        ItemInfoPopup::create(parameters->p_iconID, unlockType)->show();
-        //  log::debug("Icon Popup");
+        //  Saves the Popup to edit the name, descriptions and others
+        auto popup = ItemInfoPopup::create(parameters->p_iconID, unlockType);
+        std::string iconName = ItemInfoPopup::nameForUnlockType(parameters->p_iconID, unlockType);
+        std::string descriptionString = fmt::format("You can <cl>buy</c> this <cg>Path</c> in the <cy>Paths of Power</c>.", iconName);
+
+        //  Changes the Name of the item
+        if (auto nameLabel = static_cast<CCLabelBMFont *>(popup->getChildByIDRecursive("name-label"))){
+            nameLabel->setString(iconName.c_str());
+            nameLabel->setZOrder(20);
+        }
+
+        //  Changes the Description of the item
+        if (auto descriptionArea = static_cast<TextArea *>(popup->getChildByIDRecursive("description-area")))
+            descriptionArea->setString(descriptionString);
+
+        //  Changes the label of the "achievement"
+        if (auto achievementLabel = static_cast<CCLabelBMFont *>(popup->getChildByIDRecursive("achievement-label")))
+            achievementLabel->setString("Path of Power");
+
+        popup->show();
     }
 }
 
@@ -820,7 +866,7 @@ void ShopRewardsListAlert::secretDialogue(int shopType)
     m_mainLayer->setVisible(true);
 };
 
-ShopRewardsListAlert *ShopRewardsListAlert::create(int const& shopType)
+ShopRewardsListAlert *ShopRewardsListAlert::create(int const &shopType)
 {
     auto ret = new ShopRewardsListAlert();
 

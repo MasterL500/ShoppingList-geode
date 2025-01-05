@@ -1,11 +1,13 @@
 # Changelog
 
-### <cg>v1.2.0 (WIP)</c>
+## <cg>v1.2.0 (Latest)</c>
 
-* <co>Ported to Geode v4.0.1</c>
-* <cg>Added</c> page for Paths of Power
-* <cg>Added</c> experimental tab in settings
+* <cp>Increased</c> Node ID's dependency to <cy>1.17.0</c>
+* <cg>Added</c> </cy>Paths of Power</c>
+* <cg>Added</c> experimental tab on settings *(disabled for now)*
+* <cg>Added</c> new Shopkeeper designs to Navigation buttons
 * <cy>Fixed</c> error on counting stats
+* <cy>Fixed</c> price on a robot
 
 ### <cb>v1.2.0-beta.2</c>
 
