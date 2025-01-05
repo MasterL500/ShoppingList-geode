@@ -2,6 +2,8 @@ const std::vector<std::pair<std::string, int>> ScratchDialog = {
     //  REFERENCE
     //  { Dialog, Character Pic }
 
+    //  THIS WAS FOR A SMALL EASTER EGG WHEN YOU OPEN THE MOD WITHIN A SHOP. BUT IT WAS DISCARDED
+
     {"Oh hey...<d020> It's <cg>you</c> again", 12},
     {"Back at this ol' spot?<d020> Remember you emptied it.", 13},
     {"It's surprising that you had enough currency to buy everything from <cy>all the shops</c> in the game.", 26},

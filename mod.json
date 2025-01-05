@@ -1,48 +1,45 @@
 {
 	"geode": "4.1.2",
-	"version": "v1.2.0-beta.2",
+	"version": "v1.2.0",
 	"gd": {
-        "win": "2.2074",
+		"win": "2.2074",
 		"android": "2.2074",
 		"mac": "2.2074"
 	},
 	"id": "ml5.shopping-list",
 	"name": "Shopping List",
-	"developers": ["ML500"],
+	"developers": [
+		"ML500"
+	],
 	"description": "Making sure you have enough Mana Orbs.",
 	"links": {
 		"source": "https://github.com/MasterL500/ShoppingList-geode",
 		"community": "https://discord.gg/tFUyJw5"
-    },
+	},
 	"dependencies": [
 		{
 			"id": "geode.node-ids",
-			"version": ">=v1.12.0",
+			"version": ">=v1.17.0",
 			"importance": "required"
 		}
 	],
-	
 	"settings": {
 		"garage-button": {
-			"type":	"bool",
+			"type": "bool",
 			"name": "Garage Button",
-			"description": "If you want the mod's button to show up in the Icon Kit",
+			"description": "If you want the mod's button to show up in the Icon Kit.",
 			"default": true
-		},
-		"disable-checkmark": {
-			"type":	"bool",
-			"name": "Remove Checkmark",
-			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
-			"default": false
-		},
-		"experimental-segment": {
-			"type": "title",
-			"name": "Experimental features"
 		},
 		"show-paths": {
 			"type": "bool",
 			"name": "Display Paths",
-			"description": "Adds a sixth page that goes for the <cy>Paths of Power</c>",
+			"description": "Adds a sixth page that goes for the <cy>Paths of Power</c>.",
+			"default": true
+		},
+		"disable-checkmark": {
+			"type": "bool",
+			"name": "Remove Checkmark",
+			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
 			"default": false
 		}
 	},
@@ -51,5 +48,10 @@
 			"resources/*.png"
 		]
 	},
-	"tags": ["interface", "utility", "enhancement", "offline"]
+	"tags": [
+		"interface",
+		"utility",
+		"enhancement",
+		"offline"
+	]
 }
