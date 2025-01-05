@@ -21,5 +21,6 @@ To report bugs, crashes or issues with other mods, you can contact me through [G
 
 ## Special Thanks
 
+* **Hiimjustin000** - Contributor to the Mod
 * **Robtop** - For removing that shop sprite, giving this mod a Purpose
 * **Geode** - Documetnation and tools for modding this Game

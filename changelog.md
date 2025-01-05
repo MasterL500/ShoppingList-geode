@@ -2,12 +2,15 @@
 
 ## <cg>v1.2.0 (Latest)</c>
 
-* <cp>Increased</c> Node ID's dependency to <cy>1.17.0</c>
-* <cg>Added</c> </cy>Paths of Power</c>
-* <cg>Added</c> experimental tab on settings *(disabled for now)*
-* <cg>Added</c> new Shopkeeper designs to Navigation buttons
-* <cy>Fixed</c> error on counting stats
-* <cy>Fixed</c> price on a robot
+*Special thanks to <co>Hiimjustin000</c> for your contributions to the mod!*
+
+* <cp>MacOS support!</c>
+* <co>Automatic shop item detection and pagination</c>
+* <co>Increased</c> Node ID's dependency to <cy>v1.17.0</c>
+* <cg>Added</c> page for the **Paths of Power**
+* <cg>Added</c> custom designs to buttons
+* <cy>Fixed</c> log spam *(dev mode)*
+* Other bugfixes
 
 ### <cb>v1.2.0-beta.2</c>
 
