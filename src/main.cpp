@@ -32,7 +32,7 @@ class $modify(ModLayer, GJGarageLayer){
 	}
 
 	void onShopListButton(CCObject *){
-		ShopRewardsListAlert::create(-1)->show();
+		ShopRewardsListAlert::create(ShopType(-1))->show();
 	}
 };
 
@@ -54,7 +54,6 @@ class $modify(ShopLayer, GJShopLayer){
 			this,
 			menu_selector(ShopLayer::onInfoButton));
 		button->setID("Shopping-List-Button");
-		button->setTag(int(p0));
 		
 		menu->addChild(button);
 		menu->updateLayout();
@@ -63,9 +62,9 @@ class $modify(ShopLayer, GJShopLayer){
 	}
 
 	void onInfoButton(CCObject * sender){
-		log::debug("Value {}", sender->getTag());
+		//  log::debug("Value {}", sender->getTag());
 
-		ShopRewardsListAlert::create(sender->getTag())->show();
+		ShopRewardsListAlert::create(m_type)->show();
 
 		//	ShopRewardsListAlert::create()->show();
 	}
