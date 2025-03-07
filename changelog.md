@@ -1,6 +1,10 @@
 # Changelog
 
-## <cg>v1.2.0 (Latest)</c>
+## <cg>v1.2.1 (Latest)</c>
+
+* <co>Ported to Geode v4.2.0</c>
+
+### <cb>v1.2.0</c>
 
 *Special thanks to <co>Hiimjustin000</c> for your contributions to the mod!*
 

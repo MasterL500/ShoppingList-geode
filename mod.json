@@ -1,6 +1,6 @@
 {
-	"geode": "4.1.2",
-	"version": "v1.2.0",
+	"geode": "4.2.0",
+	"version": "v1.2.1",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -16,18 +16,13 @@
 		"source": "https://github.com/MasterL500/ShoppingList-geode",
 		"community": "https://discord.gg/tFUyJw5"
 	},
-	"dependencies": [
-		{
-			"id": "geode.node-ids",
-			"version": ">=v1.17.0",
-			"importance": "required"
-		}
-	],
+	"dependencies": {
+		"geode.node-ids": "1.17.0"
+	},
 	"settings": {
 		"garage-button": {
 			"type": "bool",
-			"name": "Garage Button",
-			"description": "If you want the mod's button to show up in the Icon Kit.",
+			"name": "Icon Kit Button",
 			"default": true
 		},
 		"show-paths": {
