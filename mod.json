@@ -1,6 +1,6 @@
 {
-	"geode": "4.2.0",
-	"version": "v1.2.1",
+	"geode": "4.6.0",
+	"version": "v1.3.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -14,28 +14,37 @@
 	"description": "Making sure you have enough Mana Orbs.",
 	"links": {
 		"source": "https://github.com/MasterL500/ShoppingList-geode",
+		"homepage": "https://ml500.carrd.co/",
 		"community": "https://discord.gg/tFUyJw5"
 	},
 	"dependencies": {
-		"geode.node-ids": "1.17.0"
+		"geode.node-ids": "1.18.0"
 	},
 	"settings": {
+		"main-settings": {
+			"type": "title",
+			"name": "Main Settings"
+		},
 		"garage-button": {
 			"type": "bool",
 			"name": "Icon Kit Button",
 			"default": true
 		},
-		"show-paths": {
+		"display-checkmark": {
 			"type": "bool",
-			"name": "Display Paths",
-			"description": "Adds a sixth page that goes for the <cy>Paths of Power</c>.",
+			"name": "Display Checkmarks",
 			"default": true
 		},
-		"disable-checkmark": {
+		"experimental-segment": {
+			"type": "title",
+			"name": "Other features",
+			"description": "Experimental features, prone to bugs or changes."
+		},
+		"paths-page": {
 			"type": "bool",
-			"name": "Remove Checkmark",
-			"description": "Icons aren't greyed out and displayed without checkmark. If you want to see the designs.",
-			"default": false
+			"name": "Page for Paths",
+			"description": "Adds an extra page that goes for the <cy>Paths of Power</c>.",
+			"default": true
 		}
 	},
 	"resources": {
