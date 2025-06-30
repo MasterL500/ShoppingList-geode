@@ -1,6 +1,12 @@
 # Changelog
 
-## <cg>v1.2.1 (Latest)</c>
+## <cg>v1.3.0 (Latest)</c>
+
+* <co>Ported to Geode v4.6.0</c>
+* <cg>Added</c> settings button in the Popup.
+* Parts of the code rewritten.
+
+### <cb>v1.2.1</c>
 
 * <co>Ported to Geode v4.2.0</c>
 
