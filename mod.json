@@ -1,13 +1,14 @@
 {
 	"geode": "4.6.0",
-	"version": "v1.3.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
-		"mac": "2.2074"
+		"mac": "2.2074",
+		"ios": "2.2074"
 	},
 	"id": "ml5.shopping-list",
 	"name": "Shopping List",
+	"version": "v1.3.0",
 	"developers": [
 		"ML500"
 	],
