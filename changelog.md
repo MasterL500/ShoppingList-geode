@@ -1,6 +1,10 @@
 # Changelog
 
-## <cg>v1.3.0 (Latest)</c>
+### <cg>v1.3.1</c> (Latest Version)
+
+* <co>Ported to Geode v5.0.0</c>
+
+### <cb>v1.3.0</c>
 
 * <co>Ported to Geode v4.6.0</c>
 * <cg>Added</c> settings button in the Popup.
@@ -17,9 +21,9 @@
 * <cp>MacOS support!</c>
 * <co>Automatic shop item detection and pagination</c>
 * <co>Increased</c> Node ID's dependency to <cy>v1.17.0</c>
-* <cg>Added</c> page for the **Paths of Power**
-* <cg>Added</c> custom designs to buttons
-* <cy>Fixed</c> log spam *(dev mode)*
+* <cg>Added</c> page for the <cy>Paths of Power</c>.
+* <cg>Added</c> custom designs to buttons.
+* <cy>Fixed</c> log spam in debug mode.
 * Other bugfixes
 
 ### <cb>v1.2.0-beta.2</c>
@@ -74,4 +78,4 @@
 
 ### <cb>v1.0.0-alpha.1</c>
 
-* <cp>Initial version</c>
+* Initial Release.
