@@ -16,17 +16,14 @@ struct IconParameters : public CCObject
     }
 };
 
-bool ShopRewardsListAlert::setup(ShopType shopType)
+bool ShopRewardsListAlert::init(ShopType shopType)
 {
+    if (!Popup::init(450.f, 260.f))
+        return false;
+
     auto layerSize = m_mainLayer->getContentSize();
     auto showPathsPage = Mod::get()->getSettingValue<bool>("paths-page");
     loadData();
-
-    /*  DELAYED UNTIL FURTHER NOTICE
-    if(shopType == ShopType::Secret || !Mod::get()->setSavedValue("shown-scratch-dialogue", true)){
-        secretDialogue(shopType);
-    }
-    */
 
     //  Background for the Icon Lists
     auto iconListBG = CCScale9Sprite::create("square02b_001.png", {0, 0, 80, 80});
@@ -869,7 +866,7 @@ ShopRewardsListAlert *ShopRewardsListAlert::create(ShopType shopType)
 {
     auto ret = new ShopRewardsListAlert();
 
-    if (ret->initAnchored(450.f, 260.f, shopType))
+    if (ret->init(shopType))
     {
         ret->autorelease();
         return ret;

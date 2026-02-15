@@ -1,23 +1,16 @@
 {
-	"geode": "4.8.0",
+	"geode": "5.0.0-beta.2",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
-		"mac": "2.2074",
-		"ios": "2.2074"
+		"win": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081",
+		"android": "2.2081"
 	},
 	"id": "ml5.shopping-list",
 	"name": "Shopping List",
-	"version": "v1.3.0",
-	"developers": [
-		"ML500"
-	],
+	"version": "v1.3.1-beta.1",
+	"developer": "ML500",
 	"description": "Making sure you have enough Mana Orbs.",
-	"links": {
-		"source": "https://github.com/MasterL500/ShoppingList-geode",
-		"homepage": "https://ml500.carrd.co/",
-		"community": "https://discord.gg/tFUyJw5"
-	},
 	"dependencies": {
 		"geode.node-ids": "1.18.0"
 	},
@@ -52,6 +45,11 @@
 		"sprites": [
 			"resources/*.png"
 		]
+	},
+	"links": {
+		"source": "https://github.com/MasterL500/ShoppingList-geode",
+		"community": "https://discord.gg/tFUyJw5",
+		"homepage": "https://ml500.carrd.co/"
 	},
 	"tags": [
 		"interface",
