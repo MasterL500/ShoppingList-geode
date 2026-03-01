@@ -1,5 +1,5 @@
 {
-	"geode": "5.0.0-beta.2",
+	"geode": "5.2.0",
 	"gd": {
 		"win": "2.2081",
 		"mac": "2.2081",
@@ -8,7 +8,7 @@
 	},
 	"id": "ml5.shopping-list",
 	"name": "Shopping List",
-	"version": "v1.3.1-beta.1",
+	"version": "v1.3.1",
 	"developer": "ML500",
 	"description": "Making sure you have enough Mana Orbs.",
 	"dependencies": {
@@ -52,9 +52,9 @@
 		"homepage": "https://ml500.carrd.co/"
 	},
 	"tags": [
-		"interface",
-		"utility",
 		"enhancement",
-		"offline"
+		"interface",
+		"offline",
+		"utility"
 	]
 }
