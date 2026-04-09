@@ -5,81 +5,78 @@
 
 using namespace geode::prelude;
 
-// GARAGE LAYER
-class $modify(ModLayer, GJGarageLayer)
+//	Garage Layer (Icon Kit)
+class $modify(GarageLayer, GJGarageLayer)
 {
-    bool init()
-    {
-        if (!GJGarageLayer::init())
-            return false;
+	bool init()
+	{
+		if (!GJGarageLayer::init())
+			return false;
 
-        if (Mod::get()->getSettingValue<bool>("garage-button"))
-        {
-            NodeIDs::provideFor(this);
+		if (Mod::get()->getSettingValue<bool>("garage-button"))
+		{
+			auto menu = this->getChildByID("shards-menu");
+			auto spr = CircleButtonSprite::createWithSprite("ShopListIcon.png"_spr, 1, CircleBaseColor::Gray, CircleBaseSize::Small);
+			auto button = CCMenuItemSpriteExtra::create(
+				spr,
+				this,
+				menu_selector(GarageLayer::onShopListButton));
+			button->setID("Shopping-List-Button");
 
-            auto menu = this->getChildByID("shards-menu");
-            auto spr = CircleButtonSprite::createWithSprite("SL_ShopIcon.png"_spr, 1, CircleBaseColor::Gray, CircleBaseSize::Small);
-            auto button = CCMenuItemSpriteExtra::create(
-                spr,
-                this,
-                menu_selector(ModLayer::onShopListButton));
-            button->setID("Shopping-List-Button");
+			menu->addChild(button);
+			menu->updateLayout();
+		}
 
-            menu->addChild(button);
-            menu->updateLayout();
-        }
+		return true;
+	}
 
-        return true;
-    }
-
-    void onShopListButton(CCObject *)
-    {
-        ShopRewardsListAlert::create(ShopType(-1))->show();
-    }
+	void onShopListButton(CCObject *)
+	{
+		ShopListAlert::create(ShopType(-1))->show();
+	}
 };
 
-// SHOP LAYER
+//	Shop Layer
 class $modify(ShopLayer, GJShopLayer)
 {
-    bool init(ShopType p0)
-    {
-        if (!GJShopLayer::init(p0))
-            return false;
+	bool init(ShopType p0)
+	{
+		if (!GJShopLayer::init(p0))
+			return false;
 
-        NodeIDs::provideFor(this);
+		if (Mod::get()->getSettingValue<bool>("shops-button"))
+		{
+			auto menu = CCMenu::create();
+			menu->setPosition({30.0f, 30.0f});
+			menu->setID("Shopping-List-Menu");
+			menu->setZOrder(10);
 
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
-        auto menu = CCMenu::create();
-        menu->setPosition({30.0f, 30.0f});
-        menu->setID("Shopping-List-Menu");
-        menu->setZOrder(5);
+			auto button = CCMenuItemSpriteExtra::create(
+				CCSpriteGrayscale::createWithSpriteFrameName("GJ_infoIcon_001.png"),
+				this,
+				menu_selector(ShopLayer::onInfo));
+			button->setID("Shopping-List-Button");
 
-        auto button = CCMenuItemSpriteExtra::create(
-            CCSprite::create("SL_ModInfo.png"_spr),
-            this,
-            menu_selector(ShopLayer::onInfo));
-        button->setID("Shopping-List-Button");
+			menu->addChild(button);
+			menu->updateLayout();
+			this->addChild(menu);
+		}
 
-        menu->addChild(button);
-        menu->updateLayout();
-        this->addChild(menu);
-        return true;
-    }
+		return true;
+	}
 
-    void onInfo(CCObject *sender)
-    {
-        ShopRewardsListAlert::create(m_type)->show();
-    }
+	void onInfo(CCObject *sender)
+	{
+		ShopListAlert::create(m_type)->show();
+	}
 };
 
 $execute
 {
-    listenForAllSettingChanges([](const std::string_view key, std::shared_ptr<SettingV3> setting)
-                               {
-		log::debug("Setting: {} Changed", key);
-
-		if (auto shoppingList = static_cast<ShopRewardsListAlert*>(CCScene::get()->getChildByIDRecursive("shopping-list-popup")))
+	listenForAllSettingChanges([](const std::string_view key, std::shared_ptr<SettingV3> setting)
+							   {
+		if (auto shoppingList = static_cast<ShopListAlert*>(CCScene::get()->getChildByIDRecursive("Shopping-List-Popup")))
 		{
-			shoppingList->onNavButton(shoppingList->getChildByIDRecursive("navigation-menu")->getChildByTag(shoppingList->m_currentPage));
+			shoppingList->onNavButton(shoppingList->getChildByIDRecursive("navigation-menu")->getChildByTag(shoppingList->m_page));
 		} });
 };

@@ -1,60 +1,82 @@
 {
-	"geode": "5.2.0",
-	"gd": {
-		"win": "2.2081",
-		"mac": "2.2081",
-		"ios": "2.2081",
-		"android": "2.2081"
-	},
-	"id": "ml5.shopping-list",
-	"name": "Shopping List",
-	"version": "v1.3.1",
-	"developer": "ML500",
-	"description": "Making sure you have enough Mana Orbs.",
-	"dependencies": {
-		"geode.node-ids": "1.18.0"
-	},
-	"settings": {
-		"main-settings": {
-			"type": "title",
-			"name": "Main Settings"
-		},
-		"garage-button": {
-			"type": "bool",
-			"name": "Icon Kit Button",
-			"default": true
-		},
-		"display-checkmark": {
-			"type": "bool",
-			"name": "Display Checkmarks",
-			"default": true
-		},
-		"experimental-segment": {
-			"type": "title",
-			"name": "Other features",
-			"description": "Experimental features, prone to bugs or changes."
-		},
-		"paths-page": {
-			"type": "bool",
-			"name": "Page for Paths",
-			"description": "Adds an extra page that goes for the <cy>Paths of Power</c>.",
-			"default": true
-		}
-	},
-	"resources": {
-		"sprites": [
-			"resources/*.png"
-		]
-	},
-	"links": {
-		"source": "https://github.com/MasterL500/ShoppingList-geode",
-		"community": "https://discord.gg/tFUyJw5",
-		"homepage": "https://ml500.carrd.co/"
-	},
-	"tags": [
-		"enhancement",
-		"interface",
-		"offline",
-		"utility"
-	]
+    "geode": "5.4.1",
+    "gd": {
+        "win": "2.2081",
+        "mac": "2.2081",
+        "ios": "2.2081",
+        "android": "2.2081"
+    },
+    "id": "ml5.shopping-list",
+    "name": "Shopping List",
+    "version": "v1.4.0",
+    "developer": "ML500",
+    "description": "Making sure you have enough Mana Orbs.",
+    "dependencies": {
+        "geode.node-ids": "1.20.0"
+    },
+    "settings": {
+        "main-settings": {
+            "type": "title",
+            "name": "Main Settings"
+        },
+        "sorting-order": {
+            "type": "string",
+            "name": "Sorting Order",
+            "description": "In what order do you want the items from the mod to be sorted.\n***\n* <cy>Mod Default</c>: How originally the mod works, sorts the items by their game-modes, followed by their IDs.\n* <co>Shop Order</c>: There's no order, is shown how they look inside the shops.\n* <cg>Price:</c> Sorts the items by their price first, followed by their game-modes and then IDs.",
+            "one-of": [
+                "Mod Default",
+                "Shop Order",
+                "Price (Ascending)",
+                "Price (Descending)"
+            ],
+            "default": "Mod Default"
+        },
+        "display-checkmark": {
+            "type": "bool",
+            "name": "Display Checkmarks",
+            "default": true
+        },
+        "button-settings": {
+            "type": "title",
+            "name": "Button Locations"
+        },
+        "garage-button": {
+            "type": "bool",
+            "name": "Icon Kit Button",
+            "description": "Whenever you want the button of the mod inside the <cy>Icon Kit</c>.",
+            "default": true
+        },
+        "shops-button": {
+            "type": "bool",
+            "name": "Inside Shops Button",
+            "description": "Whenever you want the button of the mod at the bottom left corner of any of the <cy>Shops</c>.",
+            "default": true
+        },
+        "other-settings": {
+            "type": "title",
+            "name": "Other Features"
+        },
+        "paths-page": {
+            "type": "bool",
+            "name": "Page for Paths",
+            "description": "Adds an extra page that goes for the <cy>Paths of Power</c>.\n***\n<cc>Technically, the Paths of Power aren't part of any shop, but they can be bought as an item so it's added here</c>.",
+            "default": true
+        }
+    },
+    "resources": {
+        "sprites": [
+            "resources/*.png"
+        ]
+    },
+    "links": {
+        "source": "https://github.com/MasterL500/ShoppingList-geode",
+        "community": "https://discord.gg/tFUyJw5",
+        "homepage": "https://ml500.carrd.co/"
+    },
+    "tags": [
+        "enhancement",
+        "interface",
+        "offline",
+        "utility"
+    ]
 }
