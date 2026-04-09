@@ -37,7 +37,7 @@ bool ShopListAlert::init(ShopType shopType)
 	m_navMenu->setID("navigation-menu");
 	m_navMenu->setLayout(RowLayout::create()
 							 ->setGap(2.f));
-	m_mainLayer->addChildAtPosition(m_navMenu, Anchor::Bottom, ccp(100, 24), false);
+	this->m_mainLayer->addChildAtPosition(m_navMenu, Anchor::Bottom, ccp(100, 24), false);
 
 	//  Settings Button
 	auto settingsButton = CCMenuItemSpriteExtra::create(

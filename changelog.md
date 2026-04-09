@@ -1,6 +1,14 @@
 # Changelog
 
-### <cg>v1.3.1</c> (Latest Version)
+### <cg>v1.4.0</c> (Latest)
+
+* <cg>Added</c> setting to sort the icons in the mod.
+* <cg>Added</c> setting if you want the mod button in the shops.
+* <cg>Added</c> pages format for the mod.
+* <cy>Revamped</c> settings section.
+* Internal code re-written a bit.
+
+### <cb>v1.3.1</c>
 
 * <co>Ported to Geode v5.0.0</c>
 
